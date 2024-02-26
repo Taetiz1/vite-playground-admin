@@ -1,4 +1,7 @@
 import Login from "./Login"
+import { Container } from "@mantine/core"; 
+import Header from "../components/Home/Header";
+import Dashboard from "../components/Home/Dashboard";
 import { useSocketClient } from "../components/SocketClient";
 
 const Home = () => {
@@ -9,9 +12,12 @@ const Home = () => {
 
     if(logedIn) {
         return(
-            <>
-                Home
-            </>
+            <Container py="xl">
+                <Header />
+                <Container fluid >
+                    <Dashboard />
+                </Container>
+            </Container>
         )
     } else {
         return(

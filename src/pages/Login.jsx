@@ -9,12 +9,15 @@ import loginstyles from './Login.module.css'
 const Login = () => {
     const [id, setID] = useState('');
     const [password, setPassword] = useState('');
-    const [onLoader, setOnLoader] = useState(false)
+    const [type, setType] = useState('password');
+    const [EyeOff, setEyeOff] = useState(true);
 
     const {
         socketClient,
         setConnectServer,
         adminCheck,
+        onLoader,
+        setOnLoader,
     } = useSocketClient();
 
     useEffect(() => {
@@ -46,7 +49,7 @@ const Login = () => {
 
         } catch (error) {
                     
-            errorMsg = "กรุณากรอก ID และ Password ด้วยภาษาอังกฤษ"
+            errorMsg = "กรุณากรอก ID และ Password เป็นภาษาอังกฤษ"
             pushNotification("ล้มเหลว", errorMsg, "error")
         }
     }
@@ -54,6 +57,16 @@ const Login = () => {
     const keydownSubmission = (e) => {
         if (e.keyCode === 13 ) {
             handleSubmission()
+        }
+    }
+
+    const handleEyeToggle = () => {
+        if(type==='password') {
+            setEyeOff(false);
+            setType('text')
+        } else {
+            setEyeOff(true)
+            setType('password')
         }
     }
 
@@ -71,6 +84,7 @@ const Login = () => {
                 <InputControl 
                     label="ID" 
                     placeholder="Enter ID" 
+                    type="text"
                     onChange={(event) =>
                         setID(event.target.value)
                     }
@@ -79,13 +93,16 @@ const Login = () => {
 
                 <InputControl 
                     label="Password" 
-                    placeholder="Enter Password" 
+                    placeholder="Enter Password"
+                    type={type}
                     
                     onChange={(event) =>
                         setPassword(event.target.value)
                     }
                     onKeyDown={keydownSubmission}
-                />  
+                    EyeOff={EyeOff}
+                    handleEyeToggle={handleEyeToggle}
+                />
 
                 <div className={loginstyles.footer}>
                     <button onClick={handleSubmission}>Login</button>
