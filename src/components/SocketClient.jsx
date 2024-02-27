@@ -17,6 +17,8 @@ export const SocketclientProvider = ({children}) => {
     const [admin, setAdmin] = useState({})
     const [adminLog, setAdminLog] = useState([])
     const [Stats, setState] = useState({});
+    const [user, setUser] = useState({})
+    const [avatarUrl, setAvatarUrl] = useState('')
 
     useEffect(() => {
         if(connectServer) { 
@@ -35,6 +37,9 @@ export const SocketclientProvider = ({children}) => {
             else if(site === "Admin") {
                 socketClient.emit("get admin")
             }
+            else if(site === "User") {
+                socketClient.emit("get user")
+            }
         }
     }, [socketClient, site])
 
@@ -48,6 +53,10 @@ export const SocketclientProvider = ({children}) => {
             socketClient.on("get admin", (admin) => {
                 setAdmin(admin.account)
                 setAdminLog(admin.log)
+            })
+
+            socketClient.on("get user", (user) => {
+                setUser(user)
             })
 
             socketClient.on('connect_error', (error) => {
@@ -95,7 +104,10 @@ export const SocketclientProvider = ({children}) => {
                 ID,
                 Stats,
                 admin,
-                adminLog
+                adminLog,
+                user,
+                avatarUrl,
+                setAvatarUrl
             }}
         >
             {children}

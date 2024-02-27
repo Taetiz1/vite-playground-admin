@@ -8,6 +8,7 @@ const useStyles = createStyles((theme) => ({
     title: {
       fontSize: 34,
       fontWeight: 900,
+      margin: 10,
       [theme.fn.smallerThan("sm")]: {
         fontSize: 24
       },
@@ -29,8 +30,7 @@ const Admin = () => {
     const {
         socketClient,
         admin,
-        adminLog,
-        ID
+        adminLog
     } = useSocketClient();
 
     const [id, setID] = useState('');
@@ -92,7 +92,7 @@ const Admin = () => {
                 
                 <Box w={400}>
                     <ScrollArea.Autosize w={400} mah={475}>
-                        {Object.keys(admin).length > 0 && <Table striped highlightOnHover withBorder captionSide="top">
+                        <Table striped highlightOnHover withBorder captionSide="top">
                             <caption>Admin</caption>
                             <thead>
                                 <tr>
@@ -103,7 +103,7 @@ const Admin = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {Object.keys(admin).map((id, index) => {
+                                {Object.keys(admin).length > 0 && Object.keys(admin).map((id, index) => {
                             
                                     return (
                                         <tr key={index}>
@@ -121,7 +121,7 @@ const Admin = () => {
                                 })}
 
                             </tbody>
-                        </Table>}
+                        </Table>
                     </ScrollArea.Autosize>
 
                     <SimpleGrid cols={3} mt="xl" breakpoints={[{ maxWidth: "sm", cols: 1 }]}>
@@ -159,7 +159,7 @@ const Admin = () => {
 
                 <Box w={400}>
                     <ScrollArea.Autosize w={400} mah={500} >
-                        {adminLog.length > 0 && <Table striped highlightOnHover withBorder captionSide="top">
+                        <Table striped highlightOnHover withBorder captionSide="top">
                             <caption>Logs</caption>
                             <thead>
                                 <tr>
@@ -170,8 +170,9 @@ const Admin = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {adminLog.slice().reverse().map((log, index) => {
+                                {adminLog.length > 0 && adminLog.slice().reverse().map((log, index) => {
                                     const date = new Date(log.time);
+                                    console.log(log)
                             
                                     return (
                                         <tr key={index}>
@@ -184,7 +185,7 @@ const Admin = () => {
                                 })}
 
                             </tbody>
-                        </Table>}
+                        </Table>
                     </ScrollArea.Autosize>
                 
                     <Group position="center" mt="xl">
