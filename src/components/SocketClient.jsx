@@ -19,6 +19,8 @@ export const SocketclientProvider = ({children}) => {
     const [Stats, setState] = useState({});
     const [user, setUser] = useState({})
     const [avatarUrl, setAvatarUrl] = useState('')
+    const [scene, setScene] = useState([])
+    const [SceneSelected, setSceneSelected] = useState({})
 
     useEffect(() => {
         if(connectServer) { 
@@ -40,6 +42,9 @@ export const SocketclientProvider = ({children}) => {
             else if(site === "User") {
                 socketClient.emit("get user")
             }
+            else if(site === "Scene") {
+                socketClient.emit("get scene")
+            }
         }
     }, [socketClient, site])
 
@@ -57,6 +62,11 @@ export const SocketclientProvider = ({children}) => {
 
             socketClient.on("get user", (user) => {
                 setUser(user)
+            })
+
+            socketClient.on("get scene", (scene) => {
+                setScene(scene)
+                setSceneSelected(scene[1])
             })
 
             socketClient.on('connect_error', (error) => {
@@ -107,7 +117,10 @@ export const SocketclientProvider = ({children}) => {
                 adminLog,
                 user,
                 avatarUrl,
-                setAvatarUrl
+                setAvatarUrl,
+                scene,
+                SceneSelected,
+                setSceneSelected
             }}
         >
             {children}

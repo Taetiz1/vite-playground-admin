@@ -1,5 +1,9 @@
-import { createStyles, Text } from "@mantine/core"
+import { createStyles, Text, Flex, Box, Grid, SimpleGrid, Button } from "@mantine/core"
 import { useSocketClient } from "../SocketClient";
+import { Canvas } from "@react-three/fiber";
+import { Sky, OrbitControls } from "@react-three/drei";
+import { Suspense } from "react";
+import Room from "./Room";
 
 const useStyles = createStyles((theme) => ({
     title: {
@@ -24,18 +28,91 @@ const useStyles = createStyles((theme) => ({
 
 const Scene = () => {
     const { classes, theme } = useStyles();
+    const {
+      scene,
+      setSceneSelected,
+      SceneSelected
+    } = useSocketClient();
 
     return(
-        <>
-            <Text
-                color="dimmed"
-                className={classes.title}
-                align="center"
-                mt="md"
-            >
-                Scene
-            </Text>
-        </>
+      <>
+        <Text
+          color="dimmed"
+          className={classes.title}
+          align="center"
+          mt="md"
+        >
+          Scene
+        </Text>
+
+        <Grid>
+          <Grid.Col span="content">
+            <Box w={200}>
+              content
+            </Box>
+          </Grid.Col>
+          <Grid.Col span={9}>
+            <Flex
+              mih={50}
+              bg="none"
+              gap="md"
+              justify="center"
+              align="flex-start"
+              direction="row"
+              wrap="wrap"
+            > 
+              <Box w="100%" h={400}>
+                <Canvas 
+                  shadows 
+                  camera={{ 
+                    position: [0, 50, 0], 
+                    fov: 50,
+                  }}
+                >
+                  
+                  <Sky sunPosition={[0, 10, 0]} />
+                  <OrbitControls />
+                  <ambientLight intensity={0.5} />
+                  <directionalLight position={[0, 10, 0]} intensity={1} />
+
+                  <group>
+                    <Suspense>
+                      {Object.keys(SceneSelected).length > 0 && <Room />}
+                    </Suspense>
+                  </group>
+                  
+                </Canvas>
+              </Box> 
+
+              <SimpleGrid
+                cols={3}
+                spacing="xs"
+                mt={5}
+              >
+                <Text>
+                  Scene :
+                </Text>
+
+                <select onChange={(e) => setSceneSelected(scene[e.target.value])}>
+                  {scene.length > 0 && scene.slice(1).map((scene, index) => (
+                    <option key={index} value={index+1}>{scene.id}</option>
+                  ))}
+                </select>
+
+                <Button>Save</Button>
+              </SimpleGrid>
+            </Flex>
+          </Grid.Col>
+          <Grid.Col>
+            <Box h={70}>
+              <Text>
+                Setings
+              </Text>
+            </Box>
+          </Grid.Col>
+        </Grid>  
+
+      </>
     )
 }
 

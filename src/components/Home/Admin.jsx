@@ -158,7 +158,7 @@ const Admin = () => {
                 </Box>
 
                 <Box w={400}>
-                    <ScrollArea.Autosize w={400} mah={500} >
+                    <ScrollArea.Autosize w={400} mah={470} >
                         <Table striped highlightOnHover withBorder captionSide="top">
                             <caption>Logs</caption>
                             <thead>
@@ -172,7 +172,6 @@ const Admin = () => {
                             <tbody>
                                 {adminLog.length > 0 && adminLog.slice().reverse().map((log, index) => {
                                     const date = new Date(log.time);
-                                    console.log(log)
                             
                                     return (
                                         <tr key={index}>
