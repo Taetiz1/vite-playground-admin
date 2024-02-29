@@ -38,6 +38,10 @@ const Scene = () => {
     InputPage, 
     setInputPage
   } = useSocketClient();
+
+  function onSave() {
+    console.log(scene)
+  }
   
   return(
     <>
@@ -73,6 +77,9 @@ const Scene = () => {
                   position: [0, 50, 0], 
                   fov: 50,
                 }}
+                style={{
+                  userSelect: "none"
+                }}
               >
                 
                 <Sky sunPosition={[0, 10, 0]} />
@@ -97,7 +104,13 @@ const Scene = () => {
               spacing="xs"
               mt={5}
             >
-              <Text>
+              <Text 
+                style={{
+                  userSelect: "none",
+                  alignSelf: "center",
+                  justifySelf: "end"
+                }}
+              >
                 Scene :
               </Text>
 
@@ -108,16 +121,16 @@ const Scene = () => {
                 }}
               >
                 {scene.length > 0 && scene.slice(1).map((scene, index) => (
-                  <option key={index} value={index+1}>{scene.id}</option>
+                  <option key={index} value={index+1}>{scene.id}. {scene.name} </option>
                 ))}
               </select>
 
-              <Button>Save</Button>
+              <Button onClick={onSave}>Save</Button>
             </SimpleGrid>
           </Flex>
         </Grid.Col>
         {Object.keys(SceneSelected).length > 0 && <Grid.Col>
-          <Box h={70} w="100%">
+          <Box h={70} w="100%" style={{borderRadius: "15px", padding: "5px"}}>
             <ScrollArea.Autosize h={70} maw="100%" offsetScrollbars>
               {InputPage === "main" && <SceneInput key={SceneSelected.id} />}
               {InputPage === "BT" && <BTInput key={indexItem} indexItem={indexItem} />}

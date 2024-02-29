@@ -5,11 +5,11 @@ import { useFrame } from '@react-three/fiber';
 
 const Room = () => {
   const { 
-    SceneSelected,
+    SceneSelected
   } = useSocketClient();
 
   const { scene } = useGLTF(SceneSelected.url)
-
+ 
   useFrame(() => {
     scene.scale.set(
       SceneSelected.scale[0], 
@@ -29,13 +29,14 @@ const Room = () => {
       SceneSelected.rot[2],
     )
   })
-  
+
   return( 
     <group>
+      
       <primitive object={scene} />
 
       {SceneSelected.enterBT.length > 0 && SceneSelected.enterBT.map((bt, index) => (
-        <EnterBT key={index} position={bt.pos} index={index} />
+        <EnterBT key={index} index={index} />
       ))}
     </group>
   )

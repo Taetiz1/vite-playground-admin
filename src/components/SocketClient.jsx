@@ -51,6 +51,7 @@ export const SocketclientProvider = ({children}) => {
 
     useEffect(() => {
         setInputPage('main')
+        setAvatarUrl('')
     }, [site])
 
     useEffect(() => {

@@ -4,7 +4,9 @@ import { useSocketClient } from "../SocketClient"
 
 const BTInput = ({indexItem}) => {
     const {
-        SceneSelected
+        SceneSelected,
+        setSceneSelected,
+        setInputPage
     } = useSocketClient();
 
     const [roomID, SetRoomID] = useState(parseFloat(SceneSelected.enterBT[indexItem].roomID))
@@ -18,7 +20,13 @@ const BTInput = ({indexItem}) => {
     const [AtposZ, setAtPosZ] = useState(SceneSelected.enterBT[indexItem].atPos[2])
     
     function updateSettings() {
+        const settings = SceneSelected
 
+        settings.enterBT[indexItem].roomID = parseFloat(roomID);
+        settings.enterBT[indexItem].pos = [posX, posY, posZ];
+        settings.enterBT[indexItem].atPos = [AtposX, AtposY, AtposZ];
+
+        setSceneSelected(settings)
     }
 
     return(
@@ -169,14 +177,31 @@ const BTInput = ({indexItem}) => {
                 />
             </Flex>
 
-            <Button 
-                style={{
-                    alignSelf: "end"
-                }}
-                onClick={updateSettings}
-            >
-                update
-            </Button>
+            <Flex
+                bg="none"
+                gap="xs"
+                justify="center"
+                align="flex-start"
+                direction="row"
+                wrap="wrap"
+            > 
+                <Button 
+                    style={{
+                        alignSelf: "end"
+                    }}
+                    onClick={updateSettings}
+                >
+                    update
+                </Button>
+                <Button 
+                    style={{
+                        alignSelf: "end"
+                    }}
+                    onClick={() => {setInputPage("main")}}
+                >
+                    back
+                </Button>
+            </Flex>
             
         </SimpleGrid>
     )
