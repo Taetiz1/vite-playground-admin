@@ -21,8 +21,8 @@ function InputControl(props) {
   } else {
     return (
       <div className={styles.container}>
-          {props.label && <label> {props.label} </label>}
-          <input maxLength={20} {...props} />
+        {props.label && <label> {props.label} </label>}
+        <input maxLength={20} {...props} />
       </div>
     )
   }

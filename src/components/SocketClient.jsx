@@ -21,6 +21,8 @@ export const SocketclientProvider = ({children}) => {
     const [avatarUrl, setAvatarUrl] = useState('')
     const [scene, setScene] = useState([])
     const [SceneSelected, setSceneSelected] = useState({})
+    const [InputPage, setInputPage] = useState("main")
+    const [indexItem, setIndexItem] = useState(0)
 
     useEffect(() => {
         if(connectServer) { 
@@ -29,7 +31,6 @@ export const SocketclientProvider = ({children}) => {
         }
     
     }, [connectServer])
-
     
     useEffect(() => {
         if(socketClient) {
@@ -47,6 +48,10 @@ export const SocketclientProvider = ({children}) => {
             }
         }
     }, [socketClient, site])
+
+    useEffect(() => {
+        setInputPage('main')
+    }, [site])
 
     useEffect(() => {
         if(socketClient) {
@@ -120,7 +125,11 @@ export const SocketclientProvider = ({children}) => {
                 setAvatarUrl,
                 scene,
                 SceneSelected,
-                setSceneSelected
+                setSceneSelected,
+                InputPage, 
+                setInputPage,
+                indexItem,
+                setIndexItem
             }}
         >
             {children}

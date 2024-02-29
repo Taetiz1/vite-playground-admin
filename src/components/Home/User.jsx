@@ -31,7 +31,8 @@ const User = () => {
   const {
     user,
     avatarUrl,
-    setAvatarUrl
+    setAvatarUrl,
+    ndexItem
   } = useSocketClient();
 
   const [Email, setEmail] = useState("")
