@@ -16,9 +16,13 @@ const EnterBT = ({index}) => {
     const texture = useLoader(TextureLoader, EnterIcon)
 
     useFrame(() => {
-    if(ref.current) {
-        ref.current.position.set(SceneSelected.enterBT[index].pos[0], SceneSelected.enterBT[index].pos[1], SceneSelected.enterBT[index].pos[2]);
-    }
+        if(ref.current) {
+            ref.current.position.set(
+                SceneSelected.enterBT[index].pos[0], 
+                SceneSelected.enterBT[index].pos[1], 
+                SceneSelected.enterBT[index].pos[2]
+            );
+        }
     });
 
     const handleDBlClick = () => {

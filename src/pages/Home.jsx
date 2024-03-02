@@ -12,11 +12,9 @@ const Home = () => {
 
     if(logedIn) {
         return(
-            <Container py="xl">
+            <Container py="xxl">
                 <Header />
-                <Container fluid >
-                    <Dashboard />
-                </Container>
+                <Dashboard />
             </Container>
         )
     } else {

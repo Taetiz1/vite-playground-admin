@@ -1,6 +1,7 @@
 import { createStyles, Text, Flex, Box, Grid, SimpleGrid, Button, ScrollArea } from "@mantine/core"
 import { useSocketClient } from "../SocketClient";
 import { Canvas } from "@react-three/fiber";
+import { Line, Text as DreiText } from "@react-three/drei";
 import { Sky, OrbitControls } from "@react-three/drei";
 import { Suspense } from "react";
 import Room from "./Room";
@@ -81,7 +82,37 @@ const Scene = () => {
                   userSelect: "none"
                 }}
               >
-                
+
+                {/* <group>
+                  <Line points={[[-10, 0, 0], [10, 0, 0]]} color="red" lineWidth={2} />
+                  <DreiText
+                    position={[11, 0, 0]} // ตำแหน่งตรงกลางของแกน X
+                    color="red"
+                    fontSize={1}
+                  >
+                    X
+                  </DreiText>
+
+                  <Line points={[[0, -10, 0], [0, 10, 0]]} color="green" lineWidth={2} />
+                  <DreiText
+                    position={[0, 11, 0]} // ตำแหน่งตรงกลางของแกน Y
+                    color="green"
+                    fontSize={1}
+                  >
+                    Y
+                  </DreiText>
+
+                  <Line points={[[0, 0, -10], [0, 0, 10]]} color="blue" lineWidth={2} />
+                  <DreiText
+                    position={[0, 0, 11]} // ตำแหน่งตรงกลางของแกน Z
+                    color="blue"
+                    fontSize={1}
+                  >
+                    Z
+                  </DreiText>
+
+                </group> */}
+
                 <Sky sunPosition={[0, 10, 0]} />
                 <OrbitControls 
                   enableZoom={true} 
@@ -130,8 +161,8 @@ const Scene = () => {
           </Flex>
         </Grid.Col>
         {Object.keys(SceneSelected).length > 0 && <Grid.Col>
-          <Box h={70} w="100%" style={{borderRadius: "15px", padding: "5px"}}>
-            <ScrollArea.Autosize h={70} maw="100%" offsetScrollbars>
+          <Box h={110} w="100%">
+            <ScrollArea.Autosize h={100} maw="100%" offsetScrollbars>
               {InputPage === "main" && <SceneInput key={SceneSelected.id} />}
               {InputPage === "BT" && <BTInput key={indexItem} indexItem={indexItem} />}
             </ScrollArea.Autosize>

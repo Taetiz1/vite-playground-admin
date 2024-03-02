@@ -5,10 +5,13 @@ import { useFrame } from '@react-three/fiber';
 
 const Room = () => {
   const { 
-    SceneSelected
+    SceneSelected,
+    // user
   } = useSocketClient();
 
   const { scene } = useGLTF(SceneSelected.url)
+  // const { scene: userAvatar } = useGLTF("https://models.readyplayer.me/655a5d4e9b792809cdac419d.glb")
+  // userAvatar.scale.set(0.5, 0.5, 0.5)
  
   useFrame(() => {
     scene.scale.set(
@@ -34,6 +37,10 @@ const Room = () => {
     <group>
       
       <primitive object={scene} />
+
+      {/* <group position={SceneSelected.spawnPos}>
+        <primitive object={userAvatar} />
+      </group> */}
 
       {SceneSelected.enterBT.length > 0 && SceneSelected.enterBT.map((bt, index) => (
         <EnterBT key={index} index={index} />
