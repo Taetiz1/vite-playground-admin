@@ -2,7 +2,7 @@ import { NumberInput, SimpleGrid, Flex, Button} from "@mantine/core"
 import { useSocketClient } from "../SocketClient"
 import { useState } from "react";
 
-const SceneInput = () => {
+const SceneInput = ({setOnSaved}) => {
     const {
         SceneSelected,
         setSceneSelected
@@ -28,6 +28,7 @@ const SceneInput = () => {
         settings.rot = [rotX, rotY, rotZ]
         
         setSceneSelected(settings)
+        setOnSaved(false)
     }
 
     return(

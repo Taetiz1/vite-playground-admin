@@ -2,7 +2,7 @@ import { Flex, SimpleGrid, NumberInput, Button, Text } from "@mantine/core"
 import { useState } from "react"
 import { useSocketClient } from "../SocketClient"
 
-const BTInput = ({indexItem}) => {
+const BTInput = ({indexItem, setOnSaved}) => {
     const {
         SceneSelected,
         setSceneSelected,
@@ -25,20 +25,32 @@ const BTInput = ({indexItem}) => {
     function updateSettings() {
         const settings = SceneSelected
 
-        settings.enterBT[indexItem].roomID = `${roomID}`;
+        settings.enterBT[indexItem].roomID = `${scene[roomID].id}`;
         settings.enterBT[indexItem].pos = [posX, posY, posZ];
         settings.enterBT[indexItem].atPos = parseFloat(Atpos);
 
         setSceneSelected(settings)
         setOnRoomIDUpdated(true)
         setOnAtposUpdated(true)
+        setOnSaved(false)
+    }
+
+    function onDelete() {
+        if(window.confirm("คุณต้องการที่จะลบใช่หรือไม่?")) {
+            const settings = SceneSelected
+
+            settings.enterBT.splice(indexItem, 1);
+
+            setSceneSelected(settings)
+            setInputPage("main")
+        }
     }
 
     return(
         <SimpleGrid
             cols={4}
             spacing="xs"
-            verticalSpacing="xs"
+            verticalSpacing="xl"
             mt={5}
         >
             <Flex
@@ -160,22 +172,16 @@ const BTInput = ({indexItem}) => {
                 bg="none"
                 gap="xs"
                 justify="center"
-                align="flex-start"
+                align="flex-end"
                 direction="row"
                 wrap="wrap"
             > 
-                <Button 
-                    style={{
-                        alignSelf: "end"
-                    }}
+                <Button
                     onClick={updateSettings}
                 >
                     update
                 </Button>
                 <Button 
-                    style={{
-                        alignSelf: "end"
-                    }}
                     onClick={() => {
                         setInputPage("main")
                         setOnRoomIDUpdated(false)
@@ -183,6 +189,22 @@ const BTInput = ({indexItem}) => {
                     }}
                 >
                     back
+                </Button>
+            </Flex>
+
+            <Flex
+                bg="none"
+                gap="xs"
+                justify="center"
+                align="flex-end"
+                direction="row"
+                wrap="wrap"
+            > 
+                <Button
+                    color="red"
+                    onClick={onDelete}
+                >
+                    delete
                 </Button>
             </Flex>
             

@@ -2,16 +2,14 @@ import { useGLTF } from '@react-three/drei';
 import { useSocketClient } from '../SocketClient';
 import EnterBT from './EnterBT';
 import { useFrame } from '@react-three/fiber';
+import SpawnPoint from './SpawnPoint';
 
 const Room = () => {
   const { 
     SceneSelected,
-    // user
   } = useSocketClient();
 
   const { scene } = useGLTF(SceneSelected.url)
-  // const { scene: userAvatar } = useGLTF("https://models.readyplayer.me/655a5d4e9b792809cdac419d.glb")
-  // userAvatar.scale.set(0.5, 0.5, 0.5)
  
   useFrame(() => {
     scene.scale.set(
@@ -38,9 +36,9 @@ const Room = () => {
       
       <primitive object={scene} />
 
-      {/* <group position={SceneSelected.spawnPos}>
-        <primitive object={userAvatar} />
-      </group> */}
+      {SceneSelected.spawnPos.length > 0 && SceneSelected.spawnPos.map((pos, index) => (
+        <SpawnPoint key={index} index={index} />
+      ))}
 
       {SceneSelected.enterBT.length > 0 && SceneSelected.enterBT.map((bt, index) => (
         <EnterBT key={index} index={index} />

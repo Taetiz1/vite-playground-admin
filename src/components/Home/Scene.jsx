@@ -3,10 +3,11 @@ import { useSocketClient } from "../SocketClient";
 import { Canvas } from "@react-three/fiber";
 import { Line, Text as DreiText } from "@react-three/drei";
 import { Sky, OrbitControls } from "@react-three/drei";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import Room from "./Room";
 import SceneInput from "./SceneInput";
 import BTInput from "./BTInput";
+import SpawnInput from "./SpawnInput";
 
 const useStyles = createStyles((theme) => ({
   title: {
@@ -37,11 +38,16 @@ const Scene = () => {
     SceneSelected,
     indexItem,
     InputPage, 
-    setInputPage
+    setInputPage,
+    socketClient
   } = useSocketClient();
+  
+  const [sceneIndex, SetSceneIndex] = useState(1)
+  const [onSaved, setOnSaved] = useState(false)
 
   function onSave() {
-    console.log(scene)
+    socketClient.emit("save scene", ({scene: scene[sceneIndex], sceneIndex: sceneIndex}))
+    setOnSaved(true)
   }
   
   return(
@@ -118,7 +124,9 @@ const Scene = () => {
                   enableZoom={true} 
                   enableDamping={true} 
                   enablePan={true} 
-                  enableRotate={true} 
+                  enableRotate={true}
+                  minDistance={0}
+                  maxDistance={Infinity}
                 />
                 <ambientLight intensity={0.5} />
                 <directionalLight position={[0, 10, 0]} intensity={1} />
@@ -134,6 +142,9 @@ const Scene = () => {
               cols={3}
               spacing="xs"
               mt={5}
+              style={{
+                justifyItems: "center"
+              }}
             >
               <Text 
                 style={{
@@ -149,6 +160,8 @@ const Scene = () => {
                 onChange={(e) => {
                   setInputPage("main")
                   setSceneSelected(scene[e.target.value])
+                  SetSceneIndex(e.target.value)
+                  setOnSaved(false)
                 }}
               >
                 {scene.length > 0 && scene.slice(1).map((scene, index) => (
@@ -156,15 +169,29 @@ const Scene = () => {
                 ))}
               </select>
 
-              <Button onClick={onSave}>Save</Button>
+              <Flex
+                bg="none"
+                gap="xs"
+                justify="flex-start"
+                align="center"
+                direction="row"
+                wrap="wrap"
+              >
+                <Button onClick={onSave}>Save</Button>
+                
+              <Text ta="left" style={{color: "crimson", opacity: onSaved ? 1 : 0}}>
+                Saved!
+              </Text>
+              </Flex>
             </SimpleGrid>
           </Flex>
         </Grid.Col>
         {Object.keys(SceneSelected).length > 0 && <Grid.Col>
           <Box h={110} w="100%">
-            <ScrollArea.Autosize h={100} maw="100%" offsetScrollbars>
-              {InputPage === "main" && <SceneInput key={SceneSelected.id} />}
-              {InputPage === "BT" && <BTInput key={indexItem} indexItem={indexItem} />}
+            <ScrollArea.Autosize h={110} maw="100%" offsetScrollbars>
+              {InputPage === "main" && <SceneInput key={SceneSelected.id} setOnSaved={setOnSaved} />}
+              {InputPage === "BT" && <BTInput key={indexItem} indexItem={indexItem} setOnSaved={setOnSaved} />}
+              {InputPage === "spawn" && <SpawnInput key={indexItem} indexItem={indexItem} setOnSaved={setOnSaved} />}
             </ScrollArea.Autosize>
           </Box>
         </Grid.Col>}
