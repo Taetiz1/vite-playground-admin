@@ -38,11 +38,6 @@ const SceneInput = ({setOnSaved}) => {
             verticalSpacing="xs"
             mt={5}
         >
-            {/* <TextInput
-                value={"name"}
-                label="Name"
-                radius="md"
-            /> */}
             <Flex
                 bg="none"
                 gap="xs"
@@ -60,7 +55,6 @@ const SceneInput = ({setOnSaved}) => {
                     hideControls
                     onChange={(e) => {
                         setScaleX(e)
-                            // console.log(parseFloat(e.target.value))
                     }}
                     onKeyDown={(e) => {
                         if(e.keyCode === 13) {

@@ -8,6 +8,7 @@ import Room from "./Room";
 import SceneInput from "./SceneInput";
 import BTInput from "./BTInput";
 import SpawnInput from "./SpawnInput";
+import Tools from "./Tools";
 
 const useStyles = createStyles((theme) => ({
   title: {
@@ -63,8 +64,10 @@ const Scene = () => {
 
       <Grid>
         <Grid.Col span="content">
-          <Box w={200}>
-            content
+          <Box w={210} h={400}>
+            <ScrollArea w={210} h={400} >
+              <Tools setOnSaved={setOnSaved} />
+            </ScrollArea>
           </Box>
         </Grid.Col>
         <Grid.Col span={9}>
@@ -188,11 +191,11 @@ const Scene = () => {
         </Grid.Col>
         {Object.keys(SceneSelected).length > 0 && <Grid.Col>
           <Box h={110} w="100%">
-            <ScrollArea.Autosize h={110} maw="100%" offsetScrollbars>
+            <ScrollArea h={110} w="100%" >
               {InputPage === "main" && <SceneInput key={SceneSelected.id} setOnSaved={setOnSaved} />}
               {InputPage === "BT" && <BTInput key={indexItem} indexItem={indexItem} setOnSaved={setOnSaved} />}
               {InputPage === "spawn" && <SpawnInput key={indexItem} indexItem={indexItem} setOnSaved={setOnSaved} />}
-            </ScrollArea.Autosize>
+            </ScrollArea>
           </Box>
         </Grid.Col>}
       </Grid>  
