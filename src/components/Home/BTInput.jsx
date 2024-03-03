@@ -30,8 +30,8 @@ const BTInput = ({indexItem, setOnSaved}) => {
         settings.enterBT[indexItem].atPos = parseFloat(Atpos);
 
         setSceneSelected(settings)
-        setOnRoomIDUpdated(true)
-        setOnAtposUpdated(true)
+        setOnRoomIDUpdated(false)
+        setOnAtposUpdated(false)
         setOnSaved(false)
     }
 
@@ -58,11 +58,13 @@ const BTInput = ({indexItem, setOnSaved}) => {
                 gap="xs"
                 direction="row"
                 wrap="wrap"
+                justify="center"
+                align="center"
             > 
                 <Text ta="right">
                     Scene : {onRoomIDUpdated && <span style={{
                         color: "crimson"
-                    }}>updated!</span>}
+                    }}>*update</span>}
                 </Text>
 
                 <select 
@@ -70,9 +72,9 @@ const BTInput = ({indexItem, setOnSaved}) => {
                     onChange={(e) => {
                         SetRoomID(e.target.value)
                         setAtPos(0)
-                        if(onRoomIDUpdated) {
-                            setOnRoomIDUpdated(false)
-                            setOnAtposUpdated(false)
+                        if(!onRoomIDUpdated) {
+                            setOnRoomIDUpdated(true)
+                            setOnAtposUpdated(true)
                         }
                     }}
                 >
@@ -87,11 +89,13 @@ const BTInput = ({indexItem, setOnSaved}) => {
                 gap="xs"
                 direction="row"
                 wrap="wrap"
+                justify="center"
+                align="center"
             > 
                 <Text >
                     At Position : {onAtposUpdated && <span style={{
                         color: "crimson"
-                    }}>updated!</span>}
+                    }}>*update</span>}
                 </Text>
 
                 {scene[roomID].spawnPos.length > 0 && <select 
@@ -99,8 +103,8 @@ const BTInput = ({indexItem, setOnSaved}) => {
                     defaultValue={Atpos}
                     onChange={(e) => {
                         setAtPos(e.target.value)
-                        if(onAtposUpdated) {
-                            setOnAtposUpdated(false)
+                        if(!onAtposUpdated) {
+                            setOnAtposUpdated(true)
                         }
                     }}
                 >
@@ -113,10 +117,10 @@ const BTInput = ({indexItem, setOnSaved}) => {
             <Flex
                 bg="none"
                 gap="xs"
-                justify="center"
-                align="flex-start"
                 direction="row"
                 wrap="wrap"
+                justify="center"
+                align="flex-end"
             > 
                 <NumberInput
                     w={60}

@@ -42,7 +42,7 @@ const SceneInput = ({setOnSaved}) => {
                 bg="none"
                 gap="xs"
                 justify="center"
-                align="center"
+                align="flex-end"
                 direction="row"
                 wrap="wrap"
             > 
@@ -100,7 +100,7 @@ const SceneInput = ({setOnSaved}) => {
                 bg="none"
                 gap="xs"
                 justify="center"
-                align="flex-start"
+                align="flex-end"
                 direction="row"
                 wrap="wrap"
             > 
@@ -158,7 +158,7 @@ const SceneInput = ({setOnSaved}) => {
                 bg="none"
                 gap="xs"
                 justify="center"
-                align="flex-start"
+                align="flex-end"
                 direction="row"
                 wrap="wrap"
             > 
@@ -212,14 +212,20 @@ const SceneInput = ({setOnSaved}) => {
                 />
             </Flex>
             
-            <Button 
-                style={{
-                    alignSelf: "end"
-                }}
-                onClick={updateSettings}
-            >
-                update
-            </Button>
+            <Flex
+                bg="none"
+                gap="xs"
+                justify="center"
+                align="flex-end"
+                direction="row"
+                wrap="wrap"
+            > 
+                <Button 
+                    onClick={updateSettings}
+                >
+                    update
+                </Button>
+            </Flex>
             
         </SimpleGrid>
     )

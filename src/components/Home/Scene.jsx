@@ -66,7 +66,7 @@ const Scene = () => {
         <Grid.Col span="content">
           <Box w={210} h={400}>
             <ScrollArea w={210} h={400} >
-              <Tools setOnSaved={setOnSaved} />
+              <Tools setOnSaved={setOnSaved}/>
             </ScrollArea>
           </Box>
         </Grid.Col>
@@ -182,7 +182,7 @@ const Scene = () => {
               >
                 <Button onClick={onSave}>Save</Button>
                 
-              <Text ta="left" style={{color: "crimson", opacity: onSaved ? 1 : 0}}>
+              <Text ta="left" color="green" style={{opacity: onSaved ? 1 : 0}}>
                 Saved!
               </Text>
               </Flex>
@@ -190,8 +190,17 @@ const Scene = () => {
           </Flex>
         </Grid.Col>
         {Object.keys(SceneSelected).length > 0 && <Grid.Col>
-          <Box h={110} w="100%">
-            <ScrollArea h={110} w="100%" >
+          <Box 
+            bg="#EDF2FF"
+            h={110} 
+            w="100%"
+            style={{
+              border: "2px solid #FF922B",
+              borderRadius: "8px",
+              padding: "5px"
+            }}
+          >
+            <ScrollArea h={100} w="100%" >
               {InputPage === "main" && <SceneInput key={SceneSelected.id} setOnSaved={setOnSaved} />}
               {InputPage === "BT" && <BTInput key={indexItem} indexItem={indexItem} setOnSaved={setOnSaved} />}
               {InputPage === "spawn" && <SpawnInput key={indexItem} indexItem={indexItem} setOnSaved={setOnSaved} />}
