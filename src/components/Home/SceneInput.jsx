@@ -3,12 +3,14 @@ import { useSocketClient } from "../SocketClient"
 import { useState } from "react";
 import { pushNotification } from "../Notification";
 
-const SceneInput = ({setOnSaved, sceneIndex, SetSceneIndex, onSaveAll}) => {
+const SceneInput = ({setOnSaved, onSaveAll}) => {
     const {
         SceneSelected,
         setSceneSelected,
         scene,
-        setScene
+        setScene,
+        sceneIndex, 
+        SetSceneIndex
     } = useSocketClient();
 
     const [scaleX, setScaleX] = useState(SceneSelected.scale[0])

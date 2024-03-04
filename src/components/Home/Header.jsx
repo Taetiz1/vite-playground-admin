@@ -48,6 +48,11 @@ const Header = () => {
                                 Admin
                             </Text>
                         </UnstyledButton>
+                        <UnstyledButton onClick={() => {setSite("Upload")}}>
+                            <Text>
+                                Upload
+                            </Text>
+                        </UnstyledButton>
                     </Group>
                     <Group>
                         <Text>

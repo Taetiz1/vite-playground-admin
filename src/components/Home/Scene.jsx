@@ -35,15 +35,15 @@ const Scene = () => {
   const { classes, theme } = useStyles();
   const {
     scene,
-    setSceneSelected,
     SceneSelected,
     indexItem,
     InputPage, 
     setInputPage,
-    socketClient
+    socketClient,
+    sceneIndex,
+    SetSceneIndex
   } = useSocketClient();
   
-  const [sceneIndex, SetSceneIndex] = useState(1)
   const [onSaved, setOnSaved] = useState(false)
 
   function onSave() {
@@ -55,12 +55,6 @@ const Scene = () => {
     socketClient.emit("save all scene", (scene))
     setOnSaved(true)
   }
-
-  useEffect(() => {
-    if(scene[sceneIndex]) {
-      setSceneSelected(scene[sceneIndex])
-    }
-  }, [sceneIndex])
   
   return(
     <>
@@ -171,6 +165,7 @@ const Scene = () => {
               </Text>
 
               <select 
+                defaultValue={sceneIndex}
                 onChange={(e) => {
                   setInputPage("main")
                   SetSceneIndex(e.target.value)
@@ -212,7 +207,7 @@ const Scene = () => {
             }}
           >
             <ScrollArea h={100} w="100%" >
-              {InputPage === "main" && <SceneInput key={SceneSelected.id} setOnSaved={setOnSaved} sceneIndex={sceneIndex} SetSceneIndex={SetSceneIndex} onSaveAll={onSaveAll} />}
+              {InputPage === "main" && <SceneInput key={SceneSelected.id} setOnSaved={setOnSaved} onSaveAll={onSaveAll} />}
               {InputPage === "BT" && <BTInput key={indexItem} indexItem={indexItem} setOnSaved={setOnSaved} />}
               {InputPage === "spawn" && <SpawnInput key={indexItem} indexItem={indexItem} setOnSaved={setOnSaved} />}
             </ScrollArea>

@@ -10,7 +10,7 @@ const Room = () => {
   } = useSocketClient();
 
   const { scene } = useGLTF(SceneSelected.url)
- 
+
   useFrame(() => {
     scene.scale.set(
       SceneSelected.scale[0], 
@@ -33,7 +33,6 @@ const Room = () => {
 
   return( 
     <group>
-      
       <primitive object={scene} />
 
       {SceneSelected.spawnPos.length > 0 && SceneSelected.spawnPos.map((pos, index) => (
@@ -43,6 +42,7 @@ const Room = () => {
       {SceneSelected.enterBT.length > 0 && SceneSelected.enterBT.map((bt, index) => (
         <EnterBT key={index} index={index} />
       ))}
+      
     </group>
   )
 }

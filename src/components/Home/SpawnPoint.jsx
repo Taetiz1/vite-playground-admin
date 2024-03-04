@@ -33,7 +33,7 @@ const SpawnPoint = ({index}) => {
             onDoubleClick={handleDBlClick}
         >
           <mesh>
-            <capsuleGeometry args={[0.2, 0.8]}  />
+            <capsuleGeometry args={[0.3, 0.7]}  />
             <meshStandardMaterial color={"red"}  />
           </mesh>
         </group>

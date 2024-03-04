@@ -1,12 +1,5 @@
 import { useGLTF } from '@react-three/drei'
-import { useSocketClient } from '../SocketClient';
-const Body_character = ({
-  ...props
-}) => {
-
-  const { 
-    avatarUrl,
-  } = useSocketClient();
+const Body_character = ({position, rotation, avatarUrl}) => {
 
   const { scene } = useGLTF(avatarUrl)
 
@@ -19,7 +12,7 @@ const Body_character = ({
 
   return (
     <group>
-      <primitive object={scene} position={props.position} rotation={props.rotation} />
+      <primitive object={scene} position={position} rotation={rotation} />
     </group>
   )
 }

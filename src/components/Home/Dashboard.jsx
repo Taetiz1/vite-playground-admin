@@ -3,6 +3,7 @@ import Stats from "./Stats"
 import Admin from "./Admin"
 import Scene from "./Scene"
 import User from "./User"
+import Upload from "./Upload"
 import { useSocketClient } from "../SocketClient"
 
 const Dashboard = () => {
@@ -33,6 +34,12 @@ const Dashboard = () => {
       return(
         <Container size="xl">
           <Admin />
+        </Container>
+      )
+    case "Upload": 
+      return(
+        <Container size="xl">
+          <Upload />
         </Container>
       )
   }

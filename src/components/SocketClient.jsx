@@ -18,11 +18,11 @@ export const SocketclientProvider = ({children}) => {
     const [adminLog, setAdminLog] = useState([])
     const [Stats, setState] = useState({});
     const [user, setUser] = useState({})
-    const [avatarUrl, setAvatarUrl] = useState('')
     const [scene, setScene] = useState([])
     const [SceneSelected, setSceneSelected] = useState({})
     const [InputPage, setInputPage] = useState("main")
     const [indexItem, setIndexItem] = useState(0)
+    const [sceneIndex, SetSceneIndex] = useState()
 
     useEffect(() => {
         if(connectServer) { 
@@ -51,7 +51,6 @@ export const SocketclientProvider = ({children}) => {
 
     useEffect(() => {
         setInputPage('main')
-        setAvatarUrl('')
     }, [site])
 
     useEffect(() => {
@@ -103,6 +102,12 @@ export const SocketclientProvider = ({children}) => {
         }
     }, [socketClient])
 
+    useEffect(() => {
+        if(scene[sceneIndex]) {
+            setSceneSelected(scene[sceneIndex])
+        }
+    }, [sceneIndex])
+
     return (
         <SocketclientContext.Provider
             value={{
@@ -121,8 +126,6 @@ export const SocketclientProvider = ({children}) => {
                 admin,
                 adminLog,
                 user,
-                avatarUrl,
-                setAvatarUrl,
                 scene,
                 setScene,
                 SceneSelected,
@@ -130,7 +133,9 @@ export const SocketclientProvider = ({children}) => {
                 InputPage, 
                 setInputPage,
                 indexItem,
-                setIndexItem
+                setIndexItem,
+                sceneIndex, 
+                SetSceneIndex
             }}
         >
             {children}

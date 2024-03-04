@@ -62,7 +62,12 @@ const Admin = () => {
     }
 
     const removeAdmin = (id) => {
-        socketClient.emit("remove admin", id)
+        if(Object.keys(admin).length > 1) {
+            socketClient.emit("remove admin", id)
+        } else {
+            const errorMsg = "ไม่สามารถลบได้ การเข้าสู่ระบบจำเป็นต้องมีอย่างต่ำ 1 บัญชี"
+            pushNotification("ล้มเหลว", errorMsg, "error")
+        }
     }
 
     const clearLog = () => {

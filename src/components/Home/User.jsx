@@ -1,8 +1,9 @@
-import { createStyles, Text, Flex, Box, Table, ScrollArea } from "@mantine/core"
+import { createStyles, Text, Flex, Box, Table, ScrollArea, Button } from "@mantine/core"
 import { useSocketClient } from "../SocketClient";
 import { Canvas } from "@react-three/fiber";
 import { Sky, OrbitControls } from "@react-three/drei";
-import { Suspense, useState } from "react";
+import { Suspense, useState, useEffect } from "react";
+import { AvatarCreator } from "@readyplayerme/react-avatar-creator";
 import Body_character from "./Body_character";
 
 const useStyles = createStyles((theme) => ({
@@ -30,12 +31,24 @@ const User = () => {
   const { classes, theme } = useStyles();
   const {
     user,
-    avatarUrl,
-    setAvatarUrl,
-    ndexItem
+    socketClient
   } = useSocketClient();
 
   const [Email, setEmail] = useState("")
+  const [avatarMode, setAvatarMode] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState()
+  const [onSave, setOnsave] = useState(false)
+
+  useEffect(() => {
+    if(onSave) {
+      setOnsave(false)
+    }
+  }, [Email])
+
+  function saveChar() {
+    socketClient.emit("save character", {Email: Email, avatarUrl: avatarUrl})
+    setOnsave(false)
+  }
 
   return(
     <>
@@ -48,7 +61,7 @@ const User = () => {
         User
       </Text>
 
-      <Flex
+      {!avatarMode && <Flex
         mih={50}
         bg="none"
         gap="md"
@@ -76,7 +89,7 @@ const User = () => {
                       key={index} 
                       onClick={() => {
                         setAvatarUrl(user[email].avatarUrl)
-                        setEmail(emailform)
+                        setEmail(email)
                       }}
                     >
                       <td>{index+1}</td>
@@ -88,7 +101,7 @@ const User = () => {
             </Table>
           </ScrollArea.Autosize>
         </Box>
-        <Box w={400} h={480}>
+        <Box w={400} h={480} pos="relative">
           <Canvas 
             shadows 
             camera={{ 
@@ -103,7 +116,7 @@ const User = () => {
 
             <group>
               <Suspense>
-                {avatarUrl !== '' && <Body_character rotation={[0, -18.5, 0]} position={[0, -1, 0]} />}
+                {avatarUrl && <Body_character rotation={[0, -18.5, 0]} position={[0, -1, 0]} avatarUrl={avatarUrl} />}
               </Suspense>
             </group>
 
@@ -117,11 +130,68 @@ const User = () => {
             />
 
           </Canvas>
+          <div 
+            style={{ 
+              position: 'absolute', 
+              top: '10px', 
+              right: '10px', 
+              opacity: Email === "default" ? 1 : 0
+            }}
+          >
+            <Button 
+              style={{
+                margin: "5px"
+              }}
+              disabled={Email === "default" ? false : true}
+              onClick={() => {setAvatarMode(true)}}
+            >
+              custom
+            </Button>
+            <Button
+              style={{
+                margin: "5px"
+              }} 
+              disabled={onSave ? false : true}
+              onClick={saveChar}
+            >
+              save
+            </Button>
+          </div>
           <Text>
-            {Email}
+            {Email.replace(/_/g, ".")}
           </Text>
         </Box>
-      </Flex>
+      </Flex>}
+
+      {avatarMode && (
+        <AvatarCreator 
+          subdomain="metaverse-wat-suan-kaew" 
+          config={{
+            clearCache: true,
+            bodyType: 'fullbody',
+            quickStart: false,
+            language: 'th',
+          }} 
+          style={{
+            width: '100%', 
+            height: '75vh', 
+            border: 'none',
+            zIndex: 999999999,
+          }} 
+          onAvatarExported={(event) => {
+            let newAvatarUrl =
+            event.data.url === avatarUrl.split("?")[0]
+              ? event.data.url.split("?")[0] + "?" + new Date().getTime()
+              : event.data.url;
+            newAvatarUrl +=
+              (newAvatarUrl.includes("?") ? "&" : "?") +
+              "meshlod=1&quality=high";
+            setAvatarUrl(newAvatarUrl)
+            setAvatarMode(false)
+            setOnsave(true)
+          }}
+        />
+      )}
     </>
   )
 }
