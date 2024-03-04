@@ -1,6 +1,7 @@
 import { Flex, SimpleGrid, NumberInput, Button, Text } from "@mantine/core"
 import { useState } from "react"
 import { useSocketClient } from "../SocketClient"
+import { pushNotification } from "../Notification"
 
 const BTInput = ({indexItem, setOnSaved}) => {
     const {
@@ -21,22 +22,26 @@ const BTInput = ({indexItem, setOnSaved}) => {
 
     const [Atpos, setAtPos] = useState(EnterBT.atPos)
     
-    
     function updateSettings() {
-        const settings = SceneSelected
+        if(scene[roomID]) {
+            const settings = SceneSelected
 
-        settings.enterBT[indexItem].roomID = `${scene[roomID].id}`;
-        settings.enterBT[indexItem].pos = [posX, posY, posZ];
-        settings.enterBT[indexItem].atPos = parseFloat(Atpos);
+            settings.enterBT[indexItem].roomID = `${scene[roomID].id}`;
+            settings.enterBT[indexItem].pos = [posX, posY, posZ];
+            settings.enterBT[indexItem].atPos = parseFloat(Atpos);
 
-        setSceneSelected(settings)
-        setOnRoomIDUpdated(false)
-        setOnAtposUpdated(false)
-        setOnSaved(false)
+            setSceneSelected(settings)
+            setOnRoomIDUpdated(false)
+            setOnAtposUpdated(false)
+            setOnSaved(false)
+        } else {
+            const errorMsg = "กรุณาเลือก Scene ที่ต้องการจะไป"
+            pushNotification("ล้มเหลว", errorMsg, "error")
+        }
     }
 
     function onDelete() {
-        if(window.confirm("คุณต้องการที่จะลบใช่หรือไม่?")) {
+        if(window.confirm("คุณต้องการที่จะลบ Entrance ใช่หรือไม่?")) {
             const settings = SceneSelected
 
             settings.enterBT.splice(indexItem, 1);
@@ -78,6 +83,7 @@ const BTInput = ({indexItem, setOnSaved}) => {
                         }
                     }}
                 >
+                    <option disabled={scene[roomID] ? true : false} selected value></option>
                     {scene.length > 0 && scene.slice(1).map((scene, index) => (
                         <option key={index} value={index+1}>{scene.id}. {scene.name} </option>
                     ))}
@@ -98,7 +104,7 @@ const BTInput = ({indexItem, setOnSaved}) => {
                     }}>*update</span>}
                 </Text>
 
-                {scene[roomID].spawnPos.length > 0 && <select 
+                <select 
                     key={roomID}
                     defaultValue={Atpos}
                     onChange={(e) => {
@@ -108,10 +114,10 @@ const BTInput = ({indexItem, setOnSaved}) => {
                         }
                     }}
                 >
-                    {scene[roomID].spawnPos.map((bt, index) => (
+                    {scene[roomID] && scene[roomID].spawnPos.map((bt, index) => (
                         <option key={index} value={index} style={{textAlign: "center", justifyContent: "center"}}>({index}) [ {bt[0]}, {bt[1]}, {bt[2]} ] </option>
                     ))}
-                </select>}
+                </select>
             </Flex>
 
             <Flex

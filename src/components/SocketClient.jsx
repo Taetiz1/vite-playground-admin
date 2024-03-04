@@ -72,7 +72,6 @@ export const SocketclientProvider = ({children}) => {
 
             socketClient.on("get scene", (scene) => {
                 setScene(scene)
-                setSceneSelected(scene[1])
             })
 
             socketClient.on('connect_error', (error) => {
@@ -125,6 +124,7 @@ export const SocketclientProvider = ({children}) => {
                 avatarUrl,
                 setAvatarUrl,
                 scene,
+                setScene,
                 SceneSelected,
                 setSceneSelected,
                 InputPage, 

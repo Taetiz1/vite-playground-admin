@@ -97,7 +97,7 @@ const Stats = () => {
                         {"Registered Users"}
                     </Text>
                     <Text size="sm" color="dimmed" mt="sm" className={classes.description}>
-                        {Stats.registedEmail-1}
+                        {Stats.registedEmail}
                     </Text>
                 </Card>
 

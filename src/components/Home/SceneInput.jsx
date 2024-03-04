@@ -1,11 +1,14 @@
 import { NumberInput, SimpleGrid, Flex, Button} from "@mantine/core"
 import { useSocketClient } from "../SocketClient"
 import { useState } from "react";
+import { pushNotification } from "../Notification";
 
-const SceneInput = ({setOnSaved}) => {
+const SceneInput = ({setOnSaved, sceneIndex, SetSceneIndex, onSaveAll}) => {
     const {
         SceneSelected,
-        setSceneSelected
+        setSceneSelected,
+        scene,
+        setScene
     } = useSocketClient();
 
     const [scaleX, setScaleX] = useState(SceneSelected.scale[0])
@@ -29,6 +32,26 @@ const SceneInput = ({setOnSaved}) => {
         
         setSceneSelected(settings)
         setOnSaved(false)
+    }
+
+    function onDelete() {
+        if(window.confirm("คุณต้องการที่จะลบ Scene ใช่หรือไม่?")) {
+                
+            const sceneDel = scene
+
+            if(sceneDel.length > 2) {
+                sceneDel.splice(sceneIndex, 1);
+                setScene(sceneDel)
+                onSaveAll(sceneDel)
+                
+                SetSceneIndex(1)
+
+            } else {
+                const errorMsg = "Scene ต้องมีอย่างน้อย 1 ฉาก"
+                pushNotification("ล้มเหลว", errorMsg, "error")
+            }
+
+        }
     }
 
     return(
@@ -224,6 +247,13 @@ const SceneInput = ({setOnSaved}) => {
                     onClick={updateSettings}
                 >
                     update
+                </Button>
+
+                <Button 
+                    color="red"
+                    onClick={onDelete}
+                >
+                    delete
                 </Button>
             </Flex>
             

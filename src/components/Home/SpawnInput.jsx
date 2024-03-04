@@ -25,7 +25,7 @@ const SpawnInput = ({indexItem, setOnSaved}) => {
     }
 
     function onDelete() {
-        if(window.confirm("คุณต้องการที่จะลบใช่หรือไม่?")) {
+        if(window.confirm("คุณต้องการที่จะลบ Spawn ใช่หรือไม่?")) {
             const settings = SceneSelected
 
             if(settings.spawnPos.length > 1) {
@@ -34,7 +34,7 @@ const SpawnInput = ({indexItem, setOnSaved}) => {
                 setSceneSelected(settings)
                 setInputPage("main")
             } else {
-                const errorMsg = "จุดเกินต้องมีอย่างน้อย 1 จุด ภายในฉาก"
+                const errorMsg = "Spawn ต้องมีอย่างน้อย 1 จุด ภายในฉาก"
                 pushNotification("ล้มเหลว", errorMsg, "error")
             }
         }

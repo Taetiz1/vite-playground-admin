@@ -3,7 +3,7 @@ import { useSocketClient } from "../SocketClient";
 import { Canvas } from "@react-three/fiber";
 import { Line, Text as DreiText } from "@react-three/drei";
 import { Sky, OrbitControls } from "@react-three/drei";
-import { Suspense, useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import Room from "./Room";
 import SceneInput from "./SceneInput";
 import BTInput from "./BTInput";
@@ -50,6 +50,17 @@ const Scene = () => {
     socketClient.emit("save scene", ({scene: scene[sceneIndex], sceneIndex: sceneIndex}))
     setOnSaved(true)
   }
+
+  function onSaveAll(scene) {
+    socketClient.emit("save all scene", (scene))
+    setOnSaved(true)
+  }
+
+  useEffect(() => {
+    if(scene[sceneIndex]) {
+      setSceneSelected(scene[sceneIndex])
+    }
+  }, [sceneIndex])
   
   return(
     <>
@@ -162,11 +173,11 @@ const Scene = () => {
               <select 
                 onChange={(e) => {
                   setInputPage("main")
-                  setSceneSelected(scene[e.target.value])
                   SetSceneIndex(e.target.value)
                   setOnSaved(false)
                 }}
               >
+                <option disabled selected value></option>
                 {scene.length > 0 && scene.slice(1).map((scene, index) => (
                   <option key={index} value={index+1}>{scene.id}. {scene.name} </option>
                 ))}
@@ -182,9 +193,9 @@ const Scene = () => {
               >
                 <Button onClick={onSave}>Save</Button>
                 
-              <Text ta="left" color="green" style={{opacity: onSaved ? 1 : 0}}>
-                Saved!
-              </Text>
+                <Text ta="left" color="green" style={{opacity: onSaved ? 1 : 0}}>
+                  Saved!
+                </Text>
               </Flex>
             </SimpleGrid>
           </Flex>
@@ -201,7 +212,7 @@ const Scene = () => {
             }}
           >
             <ScrollArea h={100} w="100%" >
-              {InputPage === "main" && <SceneInput key={SceneSelected.id} setOnSaved={setOnSaved} />}
+              {InputPage === "main" && <SceneInput key={SceneSelected.id} setOnSaved={setOnSaved} sceneIndex={sceneIndex} SetSceneIndex={SetSceneIndex} onSaveAll={onSaveAll} />}
               {InputPage === "BT" && <BTInput key={indexItem} indexItem={indexItem} setOnSaved={setOnSaved} />}
               {InputPage === "spawn" && <SpawnInput key={indexItem} indexItem={indexItem} setOnSaved={setOnSaved} />}
             </ScrollArea>

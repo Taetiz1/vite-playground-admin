@@ -13,28 +13,32 @@ const Tools = ({setOnSaved}) => {
     } = useSocketClient();
 
     function addSpawn() {
-        const scene = SceneSelected
-        scene.spawnPos.push([0, 0, 0])
+        if(Object.keys(SceneSelected).length > 0) {
+            const scene = SceneSelected
+            scene.spawnPos.push([0, 0, 0])
 
-        setSceneSelected(scene)
-        setOnSaved(false)
-        setIndexItem(scene.spawnPos.length - 1)
-        setInputPage("BT")
+            setSceneSelected(scene)
+            setOnSaved(false)
+            setIndexItem(scene.spawnPos.length - 1)
+            setInputPage("spawn")
+        }
     }
 
     function addEntrance() {
-        const scene = SceneSelected
-        const bt = {
-            roomID: "1",
-            pos: [0, 0, 0],
-            atPos: 0
-        }
+        if(Object.keys(SceneSelected).length > 0) {
+            const scene = SceneSelected
+            const bt = {
+                roomID: "1",
+                pos: [0, 0, 0],
+                atPos: 0
+            }
 
-        scene.enterBT.push(bt)
-        setSceneSelected(scene)
-        setOnSaved(false)
-        setIndexItem(scene.enterBT.length - 1)
-        setInputPage("BT")
+            scene.enterBT.push(bt)
+            setSceneSelected(scene)
+            setOnSaved(false)
+            setIndexItem(scene.enterBT.length - 1)
+            setInputPage("BT")
+        }
     }
 
     return(
