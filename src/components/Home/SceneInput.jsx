@@ -10,7 +10,8 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
         scene,
         setScene,
         sceneIndex, 
-        SetSceneIndex
+        SetSceneIndex,
+        socketClient
     } = useSocketClient();
 
     const [scaleX, setScaleX] = useState(SceneSelected.scale[0])
@@ -36,15 +37,16 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
         setOnSaved(false)
     }
 
-    function onDelete() {
+    function handleDelete() {
         if(window.confirm("คุณต้องการที่จะลบ Scene ใช่หรือไม่?")) {
-                
             const sceneDel = scene
+            
+            socketClient.emit("delete scene", sceneDel[sceneIndex].id)
 
             if(sceneDel.length > 2) {
                 sceneDel.splice(sceneIndex, 1);
                 setScene(sceneDel)
-                onSaveAll(sceneDel)
+                onSaveAll()
                 
                 SetSceneIndex(1)
 
@@ -253,7 +255,7 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
 
                 <Button 
                     color="red"
-                    onClick={onDelete}
+                    onClick={handleDelete}
                 >
                     delete
                 </Button>

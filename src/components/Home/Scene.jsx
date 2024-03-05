@@ -3,7 +3,7 @@ import { useSocketClient } from "../SocketClient";
 import { Canvas } from "@react-three/fiber";
 import { Line, Text as DreiText } from "@react-three/drei";
 import { Sky, OrbitControls } from "@react-three/drei";
-import { Suspense, useState, useEffect } from "react";
+import { Suspense, useState } from "react";
 import Room from "./Room";
 import SceneInput from "./SceneInput";
 import BTInput from "./BTInput";
@@ -47,13 +47,17 @@ const Scene = () => {
   const [onSaved, setOnSaved] = useState(false)
 
   function onSave() {
-    socketClient.emit("save scene", ({scene: scene[sceneIndex], sceneIndex: sceneIndex}))
-    setOnSaved(true)
+    if(sceneIndex) {
+      socketClient.emit("save scene", ({scene: scene[sceneIndex], sceneIndex: sceneIndex}))
+      setOnSaved(true)
+    }
   }
 
-  function onSaveAll(scene) {
-    socketClient.emit("save all scene", (scene))
-    setOnSaved(true)
+  function onSaveAll() {
+    if(sceneIndex) {
+      socketClient.emit("save all scene", ({scene: scene}))
+      setOnSaved(true)
+    }
   }
   
   return(
@@ -147,13 +151,21 @@ const Scene = () => {
             </Box> 
 
             <SimpleGrid
-              cols={3}
+              cols={2}
               spacing="xs"
               mt={5}
               style={{
                 justifyItems: "center"
               }}
             >
+              <Flex 
+               bg="none"
+               gap="xs"
+               justify="flex-start"
+               align="center"
+               direction="row"
+               wrap="wrap"
+               >
               <Text 
                 style={{
                   userSelect: "none",
@@ -177,6 +189,7 @@ const Scene = () => {
                   <option key={index} value={index+1}>{scene.id}. {scene.name} </option>
                 ))}
               </select>
+              </Flex>
 
               <Flex
                 bg="none"
@@ -186,7 +199,8 @@ const Scene = () => {
                 direction="row"
                 wrap="wrap"
               >
-                <Button onClick={onSave}>Save</Button>
+                <Button disabled={sceneIndex ? false : true} onClick={onSave}>Save</Button>
+                <Button disabled={sceneIndex ? false : true}  onClick={onSaveAll}>Save All</Button>
                 
                 <Text ta="left" color="green" style={{opacity: onSaved ? 1 : 0}}>
                   Saved!
