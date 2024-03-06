@@ -16,7 +16,8 @@ export const SocketclientProvider = ({children}) => {
     const [ID, setID] = useState("")
     const [admin, setAdmin] = useState({})
     const [adminLog, setAdminLog] = useState([])
-    const [Stats, setState] = useState({});
+    const [Stats, setState] = useState({})
+    const [startPoint, setStartPoint] = useState({})
     const [user, setUser] = useState({})
     const [scene, setScene] = useState([])
     const [SceneSelected, setSceneSelected] = useState({})
@@ -56,8 +57,9 @@ export const SocketclientProvider = ({children}) => {
     useEffect(() => {
         if(socketClient) {
             
-            socketClient.on("get stats", (stats) => {
+            socketClient.on("get stats", ({stats, startPoint}) => {
                 setState(stats)
+                setStartPoint(startPoint)
             })
 
             socketClient.on("get admin", (admin) => {
@@ -135,7 +137,9 @@ export const SocketclientProvider = ({children}) => {
                 indexItem,
                 setIndexItem,
                 sceneIndex, 
-                SetSceneIndex
+                SetSceneIndex,
+                startPoint,
+                setStartPoint
             }}
         >
             {children}

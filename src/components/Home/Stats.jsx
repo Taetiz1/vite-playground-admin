@@ -1,6 +1,8 @@
-import { SimpleGrid, Card, Text, createStyles } from "@mantine/core"
+import { SimpleGrid, Card, Text, createStyles, Flex, Button } from "@mantine/core"
 import { IconUser, IconRegistered, IconPlugConnected } from "@tabler/icons-react";
 import { useSocketClient } from "../SocketClient";
+import { useState, useEffect } from "react";
+import { pushNotification } from "../Notification";
 
 const useStyles = createStyles((theme) => ({
     title: {
@@ -50,8 +52,47 @@ const useStyles = createStyles((theme) => ({
 const Stats = () => {
     const { classes, theme } = useStyles();
     const {
-        Stats
+        Stats,
+        startPoint,
+        setStartPoint,
+        socketClient
     } = useSocketClient();
+    const [editStartPoint, setEditStartPoint] = useState(false)
+    const [roomsForEdit, SetRoomsForEdit] = useState({})
+    const [roomID, setRoomID] = useState("")
+    const [atPos, setAtPos] = useState()
+
+    function handleGetSpawn() {
+        socketClient.emit("get start point")
+    }
+
+    function handleSaveEdit() {
+        if(roomID !== "" && atPos) {
+            const Edit = {
+                roomID: roomID,
+                atPos: atPos
+            }
+            setStartPoint(Edit)
+            
+            socketClient.emit("edit start point", Edit)
+            setEditStartPoint(false)
+        } else {
+            const errorMsg = "กรุณาเลือก Scene ที่ต้องการจะไป"
+            pushNotification("ล้มเหลว", errorMsg, "error")
+        }
+    }
+
+    useEffect(() => {
+        if(socketClient) {
+            socketClient.on("get start point", (rooms) => {
+
+                SetRoomsForEdit(rooms)
+                console.log(rooms)
+                setEditStartPoint(true)
+            })
+        }
+
+    }, [socketClient])
 
     return(
         <>
@@ -117,6 +158,83 @@ const Stats = () => {
                     </Text>
                 </Card>
             </SimpleGrid>}
+            <SimpleGrid
+                cols={editStartPoint ? 3 : 1}
+                spacing="xl"
+                mt={50}
+                breakpoints={[{ maxWidth: "md", cols: 1 }]}
+                style={{
+                    fontSize: editStartPoint ? "20px" : "25px",
+                    padding: "50px",
+                    border: "2px solid #FF922B",
+                    borderRadius: "8px",
+                }}
+                bg="#EDF2FF"
+            >
+            
+                {editStartPoint ? 
+                    <> 
+                        <SimpleGrid
+                            cols={1}
+                            spacing="sm"
+                        >
+                            <Text>Scene : </Text>
+                            <select
+                                onChange={(e) => {
+                                    setRoomID(e.target.value)
+                                }}
+                            >
+                                <option disabled selected value></option>
+                                {Object.keys(roomsForEdit).length > 0 && Object.keys(roomsForEdit).map((room, index) => (
+                                    <option key={index} value={room}>{room} {roomsForEdit[room].name}</option>
+                                ))}
+                            </select>
+                        </SimpleGrid>
+                        <SimpleGrid
+                            cols={1}
+                            spacing="sm"
+                        >
+                            <Text>at Position : </Text>
+                            <select
+                                key={roomID}
+                                onChange={(e) => {
+                                    setAtPos(e.target.value)
+                                }}
+                            >
+                                <option disabled selected value></option>
+                                {roomsForEdit[roomID] && roomsForEdit[roomID].spawnPos.map((pos, index) => (
+                                    <option key={index} value={index}>{index}  [{pos[0]}, {pos[1]}, {pos[2]}]</option>
+                                ))}
+                            </select>
+                        </SimpleGrid>
+                        <Button 
+                            style={{
+                                alignSelf: "end"
+                            }}
+                            onClick={handleSaveEdit}
+                        >
+                            save
+                        </Button>
+                    </> : 
+                    <Flex
+                        bg="none"
+                        gap="xs"
+                        direction="row"
+                        wrap="wrap"
+                        justify="center"
+                        align="center"
+                    > 
+                        <Text>
+                            The starting point is at the <span style={{color: "crimson"}}>scene ID : {startPoint.roomID}</span> on <span style={{color: "blue"}}>position : {startPoint.atPos}</span>
+                        </Text>
+                        <Button
+                            onClick={handleGetSpawn}
+                        >
+                            Edit
+                        </Button>
+                    </Flex>
+                }
+            </SimpleGrid>
             
         </>
     )
