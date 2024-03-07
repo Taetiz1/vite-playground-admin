@@ -67,28 +67,34 @@ const BTInput = ({indexItem, setOnSaved}) => {
                 justify="center"
                 align="center"
             > 
-                <Text ta="right">
-                    Scene : {onRoomIDUpdated && <span style={{
-                        color: "crimson"
-                    }}>*update</span>}
-                </Text>
-
-                <select 
-                    defaultValue={roomIndex}
-                    onChange={(e) => {
-                        SetRoomID(e.target.value)
-                        setAtPos(0)
-                        if(!onRoomIDUpdated) {
-                            setOnRoomIDUpdated(true)
-                            setOnAtposUpdated(true)
-                        }
-                    }}
+                <SimpleGrid
+                    cols={1}
+                    spacing="sm"
                 >
-                    <option disabled selected value></option>
-                    {scene.length > 0 && scene.slice(1).map((scene, index) => (
-                        <option key={index} value={index+1}>{scene.id}. {scene.name} </option>
-                    ))}
-                </select>
+                    <Text 
+                        ta="left">
+                        Scene : {onRoomIDUpdated && <span style={{
+                            color: "crimson"
+                        }}>*update</span>}
+                    </Text>
+
+                    <select 
+                        defaultValue={roomIndex}
+                        onChange={(e) => {
+                            SetRoomID(e.target.value)
+                            setAtPos(0)
+                            if(!onRoomIDUpdated) {
+                                setOnRoomIDUpdated(true)
+                                setOnAtposUpdated(true)
+                            }
+                        }}
+                    >
+                        <option disabled selected value></option>
+                        {scene.length > 0 && scene.slice(1).map((scene, index) => (
+                            <option key={index} value={index+1}>{scene.id}. {scene.name} </option>
+                        ))}
+                    </select>
+                </SimpleGrid>
             </Flex>
 
             <Flex
@@ -99,30 +105,35 @@ const BTInput = ({indexItem, setOnSaved}) => {
                 justify="center"
                 align="center"
             > 
-                <Text >
-                    At Position : {onAtposUpdated && <span style={{
-                        color: "crimson"
-                    }}>*update</span>}
-                </Text>
-
-                <select 
-                    key={roomIndex}
-                    defaultValue={Atpos}
-                    onChange={(e) => {
-                        setAtPos(e.target.value)
-                        if(!onAtposUpdated) {
-                            setOnAtposUpdated(true)
-                        }
-                    }}
-                    style={{
-                        minWidth: "168px"
-                    }}
+                <SimpleGrid
+                    cols={1}
+                    spacing="sm"
                 >
-                    <option disabled selected value></option>
-                    {scene[roomIndex] && scene[roomIndex].spawnPos.map((bt, index) => (
-                        <option key={index} value={index} style={{textAlign: "center", justifyContent: "center"}}>({index}) [ {bt[0]}, {bt[1]}, {bt[2]} ] </option>
-                    ))}
-                </select>
+                    <Text >
+                        At Position : {onAtposUpdated && <span style={{
+                            color: "crimson"
+                        }}>*update</span>}
+                    </Text>
+
+                    <select 
+                        key={roomIndex}
+                        defaultValue={Atpos}
+                        onChange={(e) => {
+                            setAtPos(e.target.value)
+                            if(!onAtposUpdated) {
+                                setOnAtposUpdated(true)
+                            }
+                        }}
+                        style={{
+                            minWidth: "168px"
+                        }}
+                    >
+                        <option disabled selected value></option>
+                        {scene[roomIndex] && scene[roomIndex].spawnPos.map((bt, index) => (
+                            <option key={index} value={index} style={{textAlign: "center", justifyContent: "center"}}>({index}) [ {bt[0]}, {bt[1]}, {bt[2]} ] </option>
+                        ))}
+                    </select>
+                </SimpleGrid>
             </Flex>
 
             <Flex
@@ -134,7 +145,7 @@ const BTInput = ({indexItem, setOnSaved}) => {
                 align="flex-end"
             > 
                 <NumberInput
-                    w={60}
+                    w={80}
                     value={posX}
                     label="position"
                     radius="md"
@@ -150,7 +161,7 @@ const BTInput = ({indexItem, setOnSaved}) => {
                     }}
                 />
                 <NumberInput
-                    w={60}
+                    w={80}
                     value={posY} 
                     label=" "
                     radius="md"
@@ -166,7 +177,7 @@ const BTInput = ({indexItem, setOnSaved}) => {
                     }}
                 />
                 <NumberInput
-                    w={60}
+                    w={80}
                     value={posZ} 
                     label=" "
                     radius="md"
@@ -205,6 +216,12 @@ const BTInput = ({indexItem, setOnSaved}) => {
                 >
                     back
                 </Button>
+                <Button
+                    color="red"
+                    onClick={onDelete}
+                >
+                    delete
+                </Button>
             </Flex>
 
             <Flex
@@ -215,12 +232,6 @@ const BTInput = ({indexItem, setOnSaved}) => {
                 direction="row"
                 wrap="wrap"
             > 
-                <Button
-                    color="red"
-                    onClick={onDelete}
-                >
-                    delete
-                </Button>
             </Flex>
             
         </SimpleGrid>

@@ -4,10 +4,13 @@ import {
     Header as MantineHeader,
     UnstyledButton,
     Text,
-    Button
+    Button,
+    HoverCard,
+    Center
 } from "@mantine/core"
 import { useSocketClient } from "../SocketClient"
 import metaverseLogo from "/assets/MetaverseLogo.png"
+import { IconChevronDown } from "@tabler/icons-react"
 
 const Header = () => {
     const {
@@ -48,11 +51,29 @@ const Header = () => {
                                 Admin
                             </Text>
                         </UnstyledButton>
-                        <UnstyledButton onClick={() => {setSite("Upload")}}>
-                            <Text>
-                                Upload
-                            </Text>
-                        </UnstyledButton>
+                        <HoverCard 
+                            shadow="md"
+                            withinPortal
+                        >
+                            <HoverCard.Target>
+                                <Center
+                                    inline
+                                    style={{
+                                        alignItems: "end"
+                                    }}
+                                >
+                                    <Text>
+                                        Upload
+                                    </Text>
+                                    <IconChevronDown size={20} />
+                                </Center>
+                            </HoverCard.Target>
+                            <HoverCard.Dropdown>
+                                <UnstyledButton onClick={() => {setSite("Upload Scene")}}> 
+                                    Upload Scene
+                                </UnstyledButton>
+                            </HoverCard.Dropdown>
+                        </HoverCard>
                     </Group>
                     <Group>
                         <Text>

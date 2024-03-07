@@ -109,7 +109,7 @@ export const SocketclientProvider = ({children}) => {
             setSceneSelected(scene[sceneIndex])
         }
     }, [sceneIndex])
-
+    
     return (
         <SocketclientContext.Provider
             value={{

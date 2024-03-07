@@ -54,10 +54,8 @@ const Scene = () => {
   }
 
   function onSaveAll() {
-    if(sceneIndex) {
-      socketClient.emit("save all scene", ({scene: scene}))
-      setOnSaved(true)
-    }
+    socketClient.emit("save all scene", ({scene: scene}))
+    setOnSaved(true)
   }
   
   return(

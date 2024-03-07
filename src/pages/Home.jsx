@@ -12,7 +12,7 @@ const Home = () => {
 
     if(logedIn) {
         return(
-            <Container py="xxl">
+            <Container size="xl">
                 <Header />
                 <Dashboard />
             </Container>

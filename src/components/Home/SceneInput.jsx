@@ -8,7 +8,6 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
         SceneSelected,
         setSceneSelected,
         scene,
-        setScene,
         sceneIndex, 
         SetSceneIndex,
         socketClient
@@ -45,7 +44,6 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
 
             if(sceneDel.length > 2) {
                 sceneDel.splice(sceneIndex, 1);
-                setScene(sceneDel)
                 onSaveAll()
                 
                 SetSceneIndex(1)
@@ -74,7 +72,7 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
                 wrap="wrap"
             > 
                 <NumberInput
-                    w={60}
+                    w={80}
                     value={scaleX}
                     label="scale"
                     radius="md"
@@ -90,7 +88,7 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
                     }}
                 />
                 <NumberInput
-                    w={60}
+                    w={80}
                     value={scaleY} 
                     label=" "
                     radius="md"
@@ -106,7 +104,7 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
                     }}
                 />
                 <NumberInput
-                    w={60}
+                    w={80}
                     value={scaleZ} 
                     label=" "
                     radius="md"
@@ -132,7 +130,7 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
                 wrap="wrap"
             > 
                 <NumberInput
-                    w={60}
+                    w={80}
                     value={posX}
                     label="position"
                     radius="md"
@@ -148,7 +146,7 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
                     }}
                 />
                 <NumberInput
-                    w={60}
+                    w={80}
                     value={posY} 
                     label=" "
                     radius="md"
@@ -164,7 +162,7 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
                     }}
                 />
                 <NumberInput
-                    w={60}
+                    w={80}
                     value={posZ} 
                     label=" "
                     radius="md"
@@ -190,7 +188,7 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
                 wrap="wrap"
             > 
                 <NumberInput
-                    w={60}
+                    w={80}
                     value={rotX}
                     label="rotation"
                     radius="md"
@@ -206,7 +204,7 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
                     }}
                 />
                 <NumberInput
-                    w={60}
+                    w={80}
                     value={rotY} 
                     label=" "
                     radius="md"
@@ -222,7 +220,7 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
                     }}
                 />
                 <NumberInput
-                    w={60}
+                    w={80}
                     value={rotZ} 
                     label=" "
                     radius="md"

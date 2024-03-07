@@ -207,14 +207,31 @@ const Stats = () => {
                                 ))}
                             </select>
                         </SimpleGrid>
-                        <Button 
-                            style={{
-                                alignSelf: "end"
-                            }}
-                            onClick={handleSaveEdit}
-                        >
-                            save
-                        </Button>
+                        <Flex
+                        bg="none"
+                        gap="xs"
+                        direction="row"
+                        wrap="wrap"
+                        justify="center"
+                        align="end"
+                        > 
+                            <Button 
+                                onClick={handleSaveEdit}
+                            >
+                                save
+                            </Button>
+                            
+                            
+                            <Button
+                                onClick={() => {
+                                    setEditStartPoint(false)
+                                    setRoomID("")
+                                    setAtPos(undefined)
+                                }}
+                            >
+                                Back
+                            </Button>
+                        </Flex>
                     </> : 
                     <Flex
                         bg="none"

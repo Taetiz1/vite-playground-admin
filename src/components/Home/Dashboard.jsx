@@ -3,7 +3,7 @@ import Stats from "./Stats"
 import Admin from "./Admin"
 import Scene from "./Scene"
 import User from "./User"
-import Upload from "./Upload"
+import UploadScene from "./UploadScene"
 import { useSocketClient } from "../SocketClient"
 
 const Dashboard = () => {
@@ -14,19 +14,19 @@ const Dashboard = () => {
   switch(site) {
     case "Stats": 
       return(
-        <Container>
+        <Container size="md">
           <Stats />
         </Container>
       )
     case "User": 
       return(
-        <Container>
+        <Container size="md">
           <User />
         </Container>
       )
     case "Scene": 
       return(
-        <Container>
+        <Container size="lg">
           <Scene />
         </Container>
       )
@@ -36,10 +36,10 @@ const Dashboard = () => {
           <Admin />
         </Container>
       )
-    case "Upload": 
+    case "Upload Scene": 
       return(
         <Container size="xl">
-          <Upload />
+          <UploadScene />
         </Container>
       )
   }
