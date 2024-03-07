@@ -20,7 +20,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 md: 960,
                 lg: 1140,
                 xl: 1320,
-              },
+              }
             },
           },
         },

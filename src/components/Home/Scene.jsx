@@ -2,7 +2,7 @@ import { createStyles, Text, Flex, Box, Grid, SimpleGrid, Button, ScrollArea } f
 import { useSocketClient } from "../SocketClient";
 import { Canvas } from "@react-three/fiber";
 import { Line, Text as DreiText } from "@react-three/drei";
-import { Sky, OrbitControls } from "@react-three/drei";
+import { Sky } from "@react-three/drei";
 import { Suspense, useState } from "react";
 import Room from "./Room";
 import SceneInput from "./SceneInput";
@@ -91,7 +91,6 @@ const Scene = () => {
               <Canvas 
                 shadows 
                 camera={{ 
-                  position: [0, 50, 0], 
                   fov: 50,
                 }}
                 style={{
@@ -130,14 +129,6 @@ const Scene = () => {
                 </group> */}
 
                 <Sky sunPosition={[0, 10, 0]} />
-                <OrbitControls 
-                  enableZoom={true} 
-                  enableDamping={true} 
-                  enablePan={true} 
-                  enableRotate={true}
-                  minDistance={0}
-                  maxDistance={Infinity}
-                />
                 <ambientLight intensity={0.5} />
                 <directionalLight position={[0, 10, 0]} intensity={1} />
 
