@@ -9,6 +9,7 @@ import SceneInput from "./SceneInput";
 import BTInput from "./BTInput";
 import SpawnInput from "./SpawnInput";
 import Tools from "./Tools";
+import Loader from "../Loader";
 
 const useStyles = createStyles((theme) => ({
   title: {

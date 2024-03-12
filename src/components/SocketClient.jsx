@@ -24,6 +24,7 @@ export const SocketclientProvider = ({children}) => {
     const [InputPage, setInputPage] = useState("main")
     const [indexItem, setIndexItem] = useState(0)
     const [sceneIndex, SetSceneIndex] = useState()
+    const [downloadKey, setDownloadKey] = useState("")
 
     useEffect(() => {
         if(connectServer) { 
@@ -57,9 +58,10 @@ export const SocketclientProvider = ({children}) => {
     useEffect(() => {
         if(socketClient) {
             
-            socketClient.on("get stats", ({stats, startPoint}) => {
+            socketClient.on("get stats", ({stats, startPoint, downloadKey}) => {
                 setState(stats)
                 setStartPoint(startPoint)
+                setDownloadKey(downloadKey)
             })
 
             socketClient.on("get admin", (admin) => {
@@ -139,7 +141,8 @@ export const SocketclientProvider = ({children}) => {
                 sceneIndex, 
                 SetSceneIndex,
                 startPoint,
-                setStartPoint
+                setStartPoint,
+                downloadKey
             }}
         >
             {children}

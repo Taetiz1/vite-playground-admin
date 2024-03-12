@@ -4,15 +4,16 @@ import EnterBT from './EnterBT';
 import { useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import SpawnPoint from './SpawnPoint';
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import { Vector3 } from 'three';
 
 const Room = () => {
   const { 
     SceneSelected,
+    downloadKey
   } = useSocketClient();
 
-  const { scene } = useGLTF(SceneSelected.url)
+  const { scene } = useGLTF(`https://www.googleapis.com/drive/v3/files/${SceneSelected.url}?alt=media&key=${downloadKey}`)
   const modelRef = useRef();
   const controlsRef = useRef();
   let cameraTarget = new Vector3()
@@ -29,7 +30,7 @@ const Room = () => {
     cameraTarget.y = model.position.y + 0.6;
     cameraTarget.z = model.position.z;
     if(controlsRef.current){ controlsRef.current.target = cameraTarget; }
-  }, [SceneSelected])
+  }, [])
 
   useFrame(() => {
     scene.scale.set(

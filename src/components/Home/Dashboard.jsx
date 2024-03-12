@@ -38,7 +38,7 @@ const Dashboard = () => {
       )
     case "Upload Scene": 
       return(
-        <Container size="xl">
+        <Container size="lg">
           <UploadScene />
         </Container>
       )
