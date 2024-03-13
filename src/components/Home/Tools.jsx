@@ -1,6 +1,5 @@
 import { Text, Container, SimpleGrid } from "@mantine/core"
-import { IconUser } from "@tabler/icons-react"
-import { IconDoorEnter } from "@tabler/icons-react"
+import { IconUser, IconDoorEnter, Icon3dCubeSphere } from "@tabler/icons-react"
 import { useSocketClient } from "../SocketClient"
 
 const Tools = ({setOnSaved}) => {
@@ -41,6 +40,35 @@ const Tools = ({setOnSaved}) => {
         }
     }
 
+    function addCuboid() {
+        if(Object.keys(SceneSelected).length > 0) { 
+            const scene = SceneSelected
+            const cube = {
+                pos: [
+                    0,
+                    0,
+                    0
+                ],
+                args: [
+                    1,
+                    1,
+                    1
+                ],
+                rot: [
+                    0,
+                    0,
+                    0
+                ]
+            }
+
+            scene.colliders.cuboid.push(cube)
+            setSceneSelected(scene)
+            setOnSaved(false)
+            setIndexItem(scene.colliders.cuboid.length - 1)
+            setInputPage("cube")
+        }
+    }
+
     return(
         <SimpleGrid
             cols={2}
@@ -74,6 +102,20 @@ const Tools = ({setOnSaved}) => {
                 <IconDoorEnter size={50}/>
                 <Text>
                     Entrance  
+                </Text>
+            </Container>
+            <Container 
+                bg="yellow" 
+                style={{
+                    padding: "10px", 
+                    margin: "0px 0px 10px 0px",
+                    userSelect: "none"
+                }}
+                onDoubleClick={addCuboid}
+            >
+                <Icon3dCubeSphere size={50}/>
+                <Text>
+                    Cuboid  
                 </Text>
             </Container>
         </SimpleGrid>

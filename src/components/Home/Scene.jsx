@@ -10,6 +10,7 @@ import BTInput from "./BTInput";
 import SpawnInput from "./SpawnInput";
 import Tools from "./Tools";
 import Loader from "../Loader";
+import Collider_Cuboid_Input from "./Collider_Cuboid_Input";
 
 const useStyles = createStyles((theme) => ({
   title: {
@@ -214,6 +215,7 @@ const Scene = () => {
               {InputPage === "main" && <SceneInput key={SceneSelected.id} setOnSaved={setOnSaved} onSaveAll={onSaveAll} />}
               {InputPage === "BT" && <BTInput key={indexItem} indexItem={indexItem} setOnSaved={setOnSaved} />}
               {InputPage === "spawn" && <SpawnInput key={indexItem} indexItem={indexItem} setOnSaved={setOnSaved} />}
+              {InputPage === "cube" && <Collider_Cuboid_Input key={indexItem} indexItem={indexItem} setOnSaved={setOnSaved} />}
             </ScrollArea>
           </Box>
         </Grid.Col>}

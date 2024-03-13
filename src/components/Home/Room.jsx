@@ -4,6 +4,7 @@ import EnterBT from './EnterBT';
 import { useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import SpawnPoint from './SpawnPoint';
+import Collider_Cuboid from './Collider_Cuboid';
 import { useRef, useEffect } from "react";
 import { Vector3 } from 'three';
 
@@ -12,6 +13,8 @@ const Room = () => {
     SceneSelected,
     downloadKey
   } = useSocketClient();
+  
+  const colliders = SceneSelected.colliders
 
   const { scene } = useGLTF(`https://www.googleapis.com/drive/v3/files/${SceneSelected.url}?alt=media&key=${downloadKey}`)
   const modelRef = useRef();
@@ -62,6 +65,10 @@ const Room = () => {
 
       {SceneSelected.enterBT.length > 0 && SceneSelected.enterBT.map((bt, index) => (
         <EnterBT key={index} index={index} />
+      ))}
+
+      {colliders && colliders.cuboid.map((cube, index) => (
+        <Collider_Cuboid key={index} index={index} />
       ))}
       
       <OrbitControls 
