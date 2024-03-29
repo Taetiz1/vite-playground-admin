@@ -35,9 +35,9 @@ const Room = () => {
     if(controlsRef.current){ controlsRef.current.target = cameraTarget; }
   }, [])
 
-  useEffect(() => {
-    console.log(JSON.stringify(colliders.cuboid))
-  }, [colliders])
+  // useEffect(() => {
+  //   console.log(JSON.stringify(colliders.cuboid))
+  // }, [colliders])
 
   useFrame(() => {
     scene.scale.set(
