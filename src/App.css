@@ -1,0 +1,11 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+@font-face {
+  font-family: 'kanit';
+  src: url('/fonts/kanit/kanit-light.otf') format('truetype');
+}

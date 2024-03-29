@@ -1,0 +1,40 @@
+{
+  "name": "vite-playground-admin",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5000",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@mantine/core": "^6.0.20",
+    "@mantine/dates": "^6.0.20",
+    "@mantine/dropzone": "^6.0.20",
+    "@mantine/hooks": "^6.0.20",
+    "@mantine/notifications": "^6.0.20",
+    "@react-three/drei": "^9.99.4",
+    "@react-three/fiber": "^8.15.16",
+    "@readyplayerme/react-avatar-creator": "^0.5.0",
+    "@tabler/icons-react": "^2.47.0",
+    "dayjs": "1.11",
+    "mantine-react-table": "^1.3.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "socket.io-client": "^4.7.4",
+    "three": "^0.161.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.56",
+    "@types/react-dom": "^18.2.19",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "vite": "^5.1.4"
+  }
+}
