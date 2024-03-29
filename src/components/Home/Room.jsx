@@ -36,7 +36,7 @@ const Room = () => {
   }, [])
 
   useEffect(() => {
-    console.log(colliders.cuboid)
+    console.log(JSON.stringify(colliders.cuboid))
   }, [colliders])
 
   useFrame(() => {
