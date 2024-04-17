@@ -3,11 +3,13 @@ import { Container } from "@mantine/core";
 import Header from "../components/Home/Header";
 import Dashboard from "../components/Home/Dashboard";
 import { useSocketClient } from "../components/SocketClient";
+import Loader from "../components/Loader";
 
 const Home = () => {
 
     const {
-        logedIn
+        logedIn,
+        onLoader
     } = useSocketClient();
 
     if(logedIn) {
@@ -15,6 +17,7 @@ const Home = () => {
             <Container size="xl">
                 <Header />
                 <Dashboard />
+                {onLoader && <Loader />}
             </Container>
         )
     } else {

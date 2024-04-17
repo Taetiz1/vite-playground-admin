@@ -6,7 +6,8 @@ import {
     Text,
     Button,
     HoverCard,
-    Center
+    Center,
+    SimpleGrid 
 } from "@mantine/core"
 import { useSocketClient } from "../SocketClient"
 import metaverseLogo from "/assets/MetaverseLogo.png"
@@ -69,9 +70,14 @@ const Header = () => {
                                 </Center>
                             </HoverCard.Target>
                             <HoverCard.Dropdown>
-                                <UnstyledButton onClick={() => {setSite("Upload Scene")}}> 
-                                    Upload Scene
-                                </UnstyledButton>
+                                <SimpleGrid cols={1} spacing="xs" verticalSpacing="xs">
+                                    <UnstyledButton onClick={() => {setSite("Upload Scene")}}> 
+                                        Upload Scene
+                                    </UnstyledButton>
+                                    <UnstyledButton onClick={() => {setSite("Upload Animation")}}> 
+                                        Upload Animation
+                                    </UnstyledButton>
+                                </SimpleGrid>
                             </HoverCard.Dropdown>
                         </HoverCard>
                     </Group>

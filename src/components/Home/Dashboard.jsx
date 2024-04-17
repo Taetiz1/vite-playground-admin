@@ -4,6 +4,7 @@ import Admin from "./Admin"
 import Scene from "./Scene"
 import User from "./User"
 import UploadScene from "./UploadScene"
+import UploadAnimation from "./UploadAnimation"
 import { useSocketClient } from "../SocketClient"
 
 const Dashboard = () => {
@@ -40,6 +41,12 @@ const Dashboard = () => {
       return(
         <Container size="lg">
           <UploadScene />
+        </Container>
+      )
+    case "Upload Animation": 
+      return(
+        <Container size="lg">
+          <UploadAnimation />
         </Container>
       )
   }

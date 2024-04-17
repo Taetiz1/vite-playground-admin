@@ -2,7 +2,7 @@ import { createStyles, Text, Flex, Box, Table, ScrollArea, Button } from "@manti
 import { useSocketClient } from "../SocketClient";
 import { Canvas } from "@react-three/fiber";
 import { Sky, OrbitControls } from "@react-three/drei";
-import { Suspense, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { AvatarCreator } from "@readyplayerme/react-avatar-creator";
 import Body_character from "./Body_character";
 
@@ -114,10 +114,8 @@ const User = () => {
             <ambientLight />
             <directionalLight position={[4, 5, 4.5]} intensity={1}  castShadow shadow-mapSize={1024} />
 
-            <group>
-              <Suspense>
-                {avatarUrl && <Body_character rotation={[0, -18.5, 0]} position={[0, -1, 0]} avatarUrl={avatarUrl} />}
-              </Suspense>
+            <group rotation={[0, -18.5, 0]} position={[0, -1, 0]}>
+              {avatarUrl && <Body_character avatarUrl={avatarUrl} scale={[1, 1, 1]} />}
             </group>
 
             <mesh rotation={[-0.5 * Math.PI, 0, 0]} position={[0, -0.9, 0]} receiveShadow>

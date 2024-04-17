@@ -1,5 +1,5 @@
 import { Text, Container, SimpleGrid } from "@mantine/core"
-import { IconUser, IconDoorEnter, Icon3dCubeSphere } from "@tabler/icons-react"
+import { IconUser, IconDoorEnter, Icon3dCubeSphere, IconPointer } from "@tabler/icons-react"
 import { useSocketClient } from "../SocketClient"
 
 const Tools = ({setOnSaved}) => {
@@ -7,7 +7,8 @@ const Tools = ({setOnSaved}) => {
         SceneSelected,
         setSceneSelected,
         setIndexItem,
-        setInputPage
+        setInputPage,
+        avatarAnimation
 
     } = useSocketClient();
 
@@ -69,6 +70,31 @@ const Tools = ({setOnSaved}) => {
         }
     }
 
+    function addInteractive() {
+        if(Object.keys(SceneSelected).length > 0) {
+            const scene = SceneSelected
+            const interactive = {
+                emote: avatarAnimation[0].action,
+                pos: [
+                    0,
+                    0,
+                    0
+                ],
+                rot: [
+                    0,
+                    0,
+                    0
+                ]
+            }
+
+            scene.interactive.push(interactive)
+            setSceneSelected(scene)
+            setOnSaved(false)
+            setIndexItem(scene.interactive.length - 1)
+            setInputPage("interactive")
+        }
+    }
+
     return(
         <SimpleGrid
             cols={2}
@@ -116,6 +142,20 @@ const Tools = ({setOnSaved}) => {
                 <Icon3dCubeSphere size={50}/>
                 <Text>
                     Cuboid  
+                </Text>
+            </Container>
+            <Container 
+                bg="yellow" 
+                style={{
+                    padding: "10px", 
+                    margin: "0px 0px 10px 0px",
+                    userSelect: "none"
+                }}
+                onDoubleClick={addInteractive}
+            >
+                <IconPointer size={50}/>
+                <Text>
+                    Interactive
                 </Text>
             </Container>
         </SimpleGrid>

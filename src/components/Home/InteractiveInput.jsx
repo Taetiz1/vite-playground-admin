@@ -1,64 +1,47 @@
-import { NumberInput, SimpleGrid, Flex, Button} from "@mantine/core"
+import { NumberInput, SimpleGrid, Flex, Button, Text} from "@mantine/core"
 import { useSocketClient } from "../SocketClient"
 import { useState } from "react";
-import { pushNotification } from "../Notification";
 
-const SceneInput = ({setOnSaved, onSaveAll}) => {
+const InteractiveInput = ({indexItem, setOnSaved}) => {
     const {
         SceneSelected,
         setSceneSelected,
-        scene,
-        sceneIndex, 
-        SetSceneIndex,
-        socketClient,
-        setOnLoader
+        setInputPage,
+        avatarAnimation
     } = useSocketClient();
 
-    const [scaleX, setScaleX] = useState(SceneSelected.scale[0])
-    const [scaleY, setScaleY] = useState(SceneSelected.scale[1])
-    const [scaleZ, setScaleZ] = useState(SceneSelected.scale[2])
+    const Interactive = SceneSelected.interactive[indexItem]
 
-    const [posX, setPosX] = useState(SceneSelected.pos[0])
-    const [posY, setPosY] = useState(SceneSelected.pos[1])
-    const [posZ, setPosZ] = useState(SceneSelected.pos[2])
+    const [emote, setEmote] = useState(Interactive.emote)
 
-    const [rotX, setRotX] = useState(SceneSelected.rot[0])
-    const [rotY, setRotY] = useState(SceneSelected.rot[1])
-    const [rotZ, setRotZ] = useState(SceneSelected.rot[2])
+    const [posX, setPosX] = useState(Interactive.pos[0])
+    const [posY, setPosY] = useState(Interactive.pos[1])
+    const [posZ, setPosZ] = useState(Interactive.pos[2])
+
+    const [rotX, setRotX] = useState(Interactive.rot[0])
+    const [rotY, setRotY] = useState(Interactive.rot[1])
+    const [rotZ, setRotZ] = useState(Interactive.rot[2])
 
     function updateSettings() {
         const settings = SceneSelected
 
-        settings.scale = [scaleX, scaleY, scaleZ]
-        settings.pos = [posX, posY, posZ]
-        settings.rot = [rotX, rotY, rotZ]
-        
+        settings.interactive[indexItem].emote = emote
+        settings.interactive[indexItem].pos = [posX, posY, posZ]
+        settings.interactive[indexItem].rot = [rotX, rotY, rotZ]
+
         setSceneSelected(settings)
         setOnSaved(false)
     }
 
-    function handleDelete() {
-        if(window.confirm("คุณต้องการที่จะลบ Scene ใช่หรือไม่?")) {
-            const sceneDel = scene
-            
-            socketClient.emit("delete scene", ({sceneID: sceneDel[sceneIndex].id, sceneURL: sceneDel[sceneIndex].url}))
-            setOnLoader(true)
+    function onDelete() {
+        const settings = SceneSelected
 
-            if(sceneDel.length > 2) {
-                sceneDel.splice(sceneIndex, 1);
-                onSaveAll()
-                
-                SetSceneIndex(1)
-
-            } else {
-                const errorMsg = "Scene ต้องมีอย่างน้อย 1 ฉาก"
-                pushNotification("ล้มเหลว", errorMsg, "error")
-            }
-
-        }
+        settings.interactive.splice(indexItem, 1)
+        setSceneSelected(settings)
+        setInputPage("main")
     }
 
-    return(
+    return (
         <SimpleGrid
             cols={4}
             spacing="xs"
@@ -68,61 +51,35 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
             <Flex
                 bg="none"
                 gap="xs"
-                justify="center"
-                align="flex-end"
                 direction="row"
                 wrap="wrap"
+                justify="center"
+                align="center"
             > 
-                <NumberInput
-                    w={80}
-                    value={scaleX}
-                    label="scale"
-                    radius="md"
-                    precision={3}
-                    hideControls
-                    onChange={(e) => {
-                        setScaleX(e)
-                    }}
-                    onKeyDown={(e) => {
-                        if(e.keyCode === 13) {
-                            updateSettings()
-                        }
-                    }}
-                />
-                <NumberInput
-                    w={80}
-                    value={scaleY} 
-                    label=" "
-                    radius="md"
-                    precision={3}
-                    hideControls
-                    onChange={(e) => {
-                        setScaleY(e)
-                    }}
-                    onKeyDown={(e) => {
-                        if(e.keyCode === 13) {
-                            updateSettings()
-                        }
-                    }}
-                />
-                <NumberInput
-                    w={80}
-                    value={scaleZ} 
-                    label=" "
-                    radius="md"
-                    precision={3}
-                    hideControls
-                    onChange={(e) => {
-                        setScaleZ(e)
-                    }}
-                    onKeyDown={(e) => {
-                        if(e.keyCode === 13) {
-                            updateSettings()
-                        }
-                    }}
-                />
-            </Flex>
+                <SimpleGrid
+                    cols={1}
+                    spacing="sm"
+                >
+                    <Text 
+                        ta="left"
+                    >
+                        Emote : 
+                    </Text>
 
+                    <select 
+                        defaultValue={emote}
+                        onChange={(e) => {
+                            setEmote(e.target.value)
+                            updateSettings()
+                        }}
+                    >
+                        <option disabled selected value></option>
+                        {avatarAnimation.length > 0 && avatarAnimation.map((animation, index) => (
+                            <option key={index} value={animation.action}>{animation.action} </option>
+                        ))}
+                    </select>
+                </SimpleGrid>
+            </Flex>
             <Flex
                 bg="none"
                 gap="xs"
@@ -238,7 +195,7 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
                     }}
                 />
             </Flex>
-            
+    
             <Flex
                 bg="none"
                 gap="xs"
@@ -254,15 +211,22 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
                 </Button>
 
                 <Button 
+                    onClick={() => {
+                        setInputPage("main")
+                    }}
+                >
+                    back
+                </Button>
+
+                <Button
                     color="red"
-                    onClick={handleDelete}
+                    onClick={onDelete}
                 >
                     delete
                 </Button>
             </Flex>
-            
         </SimpleGrid>
     )
 }
 
-export default SceneInput
+export default InteractiveInput

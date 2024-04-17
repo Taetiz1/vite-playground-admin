@@ -7,6 +7,7 @@ import SpawnPoint from './SpawnPoint';
 import Collider_Cuboid from './Collider_Cuboid';
 import { useRef, useEffect } from "react";
 import { Vector3 } from 'three';
+import InteractiveBT from './InteractiveBT';
 
 const Room = () => {
   const { 
@@ -15,8 +16,10 @@ const Room = () => {
   } = useSocketClient();
   
   const colliders = SceneSelected.colliders
+  console.log(`https://www.googleapis.com/drive/v3/files/${SceneSelected.url}?alt=media&key=${downloadKey}`)
 
   const { scene } = useGLTF(`https://www.googleapis.com/drive/v3/files/${SceneSelected.url}?alt=media&key=${downloadKey}`)
+  console.log(scene)
   const modelRef = useRef();
   const controlsRef = useRef();
   let cameraTarget = new Vector3()
@@ -71,8 +74,12 @@ const Room = () => {
         <EnterBT key={index} index={index} />
       ))}
 
-      {colliders && colliders.cuboid.map((cube, index) => (
+      {colliders.cuboid && colliders.cuboid.length > 0 && colliders.cuboid.map((cube, index) => (
         <Collider_Cuboid key={index} index={index} />
+      ))}
+
+      {SceneSelected.interactive.length > 0 && SceneSelected.interactive.map((bt, index) => (
+        <InteractiveBT key={index} index={index} />
       ))}
       
       <OrbitControls 

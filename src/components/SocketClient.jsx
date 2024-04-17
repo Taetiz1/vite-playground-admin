@@ -25,6 +25,7 @@ export const SocketclientProvider = ({children}) => {
     const [indexItem, setIndexItem] = useState(0)
     const [sceneIndex, SetSceneIndex] = useState()
     const [downloadKey, setDownloadKey] = useState("")
+    const [avatarAnimation, setAvatarAnimation] = useState([])
 
     useEffect(() => {
         if(connectServer) { 
@@ -38,6 +39,7 @@ export const SocketclientProvider = ({children}) => {
         if(socketClient) {
             if(site === "Stats") {
                 socketClient.emit("get stats")  
+                socketClient.emit("get scene")
             } 
             else if(site === "Admin") {
                 socketClient.emit("get admin")
@@ -58,10 +60,11 @@ export const SocketclientProvider = ({children}) => {
     useEffect(() => {
         if(socketClient) {
             
-            socketClient.on("get stats", ({stats, startPoint, downloadKey}) => {
+            socketClient.on("get stats", ({stats, startPoint, downloadKey, animations}) => {
                 setState(stats)
                 setStartPoint(startPoint)
                 setDownloadKey(downloadKey)
+                setAvatarAnimation(animations)
             })
 
             socketClient.on("get admin", (admin) => {
@@ -83,6 +86,19 @@ export const SocketclientProvider = ({children}) => {
                     pushNotification("ล้มเหลว", errorMsg, "error")
                 }
             })
+
+            socketClient.on('delete scene complete', (check) => {
+        
+                setOnLoader(false)
+        
+                if(check) {
+                  const Msg = "ลบฉากสำเร็จ"
+                  pushNotification("สำเร็จ", Msg, "normal")
+                } else {
+                  const errorMsg = "ลบฉากล้มเหลว"
+                  pushNotification("ล้มเหลว", errorMsg, "error")
+                }
+            })
         }
     }, [socketClient])
 
@@ -90,6 +106,7 @@ export const SocketclientProvider = ({children}) => {
         if(socketClient) {
             socketClient.on('Admin_check', ({check, id}) => {
                 if(check) {
+                    setOnLoader(false)
                     setLogedIn(true)
                     setID(atob(`${id}`))
 
@@ -142,7 +159,9 @@ export const SocketclientProvider = ({children}) => {
                 SetSceneIndex,
                 startPoint,
                 setStartPoint,
-                downloadKey
+                downloadKey,
+                avatarAnimation,
+                setAvatarAnimation
             }}
         >
             {children}

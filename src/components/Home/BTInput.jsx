@@ -72,7 +72,8 @@ const BTInput = ({indexItem, setOnSaved}) => {
                     spacing="sm"
                 >
                     <Text 
-                        ta="left">
+                        ta="left"
+                    >
                         Scene : {onRoomIDUpdated && <span style={{
                             color: "crimson"
                         }}>*update</span>}

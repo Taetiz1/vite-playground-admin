@@ -35,9 +35,12 @@ const UploadScene = () => {
   const [modelFile, setModelFile] = useState();
   const [modelUrl, setModelUrl] = useState()
   const [sceneName, setSceneName] = useState("")
+  const [sceneURL, setSceneURL] = useState()
 
   const {
-    socketClient
+    socketClient,
+    setOnLoader,
+    scene
   } = useSocketClient();
   
   function handleAcceptFile(files) {
@@ -71,16 +74,63 @@ const UploadScene = () => {
     }
   }, [modelFile])
 
+  useEffect(() => {
+    if(socketClient) {
+      socketClient.on('upload scene complete', (check) => {
+        
+        setModelUrl(undefined)
+        setSceneURL(undefined)
+        setOnLoader(false)
+
+        if(!check) {
+          const errorMsg = "การอัพโหลดไฟล์ฉากล้มเหลว"
+          pushNotification("ล้มเหลว", errorMsg, "error")
+        }
+      })
+
+      socketClient.on('update scene complete', (check) => {
+        
+        setModelUrl(undefined)
+        setSceneURL(undefined)
+        setOnLoader(false)
+
+        if(!check) {
+          const errorMsg = "การอัพเดตไฟล์ฉากล้มเหลว"
+          pushNotification("ล้มเหลว", errorMsg, "error")
+        }
+      })
+    }
+  }, [socketClient])
+
   function onUpload() {
     if(sceneName !== ""){
       if(modelFile) {
         socketClient.emit("upload scene", ({file: modelFile, filename: modelFile.name, sceneName: sceneName}))
+        setOnLoader(true)
       }
     } else {
       const errorMsg = "กรุณากรอก Scene Name"
       pushNotification("ล้มเหลว", errorMsg, "error")
     }
   }  
+
+  function onUpdate() {
+    if(sceneURL) {
+      if(modelFile) {
+        socketClient.emit("update scene", (
+          {
+            file: modelFile, 
+            filename: modelFile.name,
+            sceneURL: sceneURL
+          }
+        ))
+        setOnLoader(true)
+      }
+    } else {
+      const errorMsg = "กรุณาเลือกฉากที่จะ Update"
+      pushNotification("ล้มเหลว", errorMsg, "error")
+    }
+  }
 
   function onCancle() {
     setModelFile(undefined)
@@ -122,7 +172,7 @@ const UploadScene = () => {
 
             <div>
               <Text size="xl" inline>
-                Drag Model here or click to select files
+                Drag Model here or click to select file
               </Text>
               <Text size="sm" color="dimmed" inline mt={7}>
                 กำหนดไฟล์ glb และ gltf ต้องมีขนาดไม่เกิน {maxSize}MB
@@ -165,6 +215,27 @@ const UploadScene = () => {
             />
             <Button onClick={onUpload}>Upload</Button>
             <Button color="red" onClick={onCancle}>Cancle</Button>
+          </Flex>
+          <Flex 
+            bg="none"
+            gap="xs"
+            justify="flex-end"
+            align="flex-end"
+            direction="row"
+            wrap="wrap"
+            style={{ margin: "10px" }}
+          >
+            <select 
+              onChange={(e) => {
+                setSceneURL(e.target.value)
+              }}
+            >
+              <option disabled selected value></option>
+              {scene.length > 0 && scene.slice(1).map((scene, index) => (
+                <option key={index} value={scene.url}>{scene.id}. {scene.name} </option>
+              ))}
+            </select>
+            <Button color="yellow" onClick={onUpdate}>Update</Button>
           </Flex>
         </>}
       </Box> 
