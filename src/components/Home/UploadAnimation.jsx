@@ -1,7 +1,7 @@
 import { createStyles, Text, TextInput, Container, Box, Button, Flex, ScrollArea, Table, SimpleGrid, FileButton } from "@mantine/core"
 import { pushNotification } from "../Notification";
 import { Canvas } from "@react-three/fiber";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Sky, OrbitControls } from "@react-three/drei";
 import { useSocketClient } from "../SocketClient";
 import Body_character from "./Body_character";
@@ -37,7 +37,7 @@ const UploadAnimation = () => {
   const {
     socketClient,
     avatarAnimation,
-    setAvatarAnimation
+    setOnLoader
   } = useSocketClient();
   
   function handleAcceptFile(file) {
@@ -51,10 +51,26 @@ const UploadAnimation = () => {
     }
   }
 
+  useEffect(() => {
+    if(socketClient) {
+      socketClient.on('upload animation complete', (check) => {
+        
+        setModelFile(undefined)
+        setOnLoader(false)
+
+        if(!check) {
+          const errorMsg = "การอัพโหลดไฟล์ฉากล้มเหลว"
+          pushNotification("ล้มเหลว", errorMsg, "error")
+        }
+      })
+    }
+  }, [socketClient])
+
   function onUpload() {
     if(action !== ""){
       if(modelFile) {
         socketClient.emit("upload animation", ({file: modelFile, filename: modelFile.name, action: action}))
+        setOnLoader(true)
       }
     } else {
       const errorMsg = "กรุณากรอก Action Name"

@@ -87,18 +87,6 @@ const UploadScene = () => {
           pushNotification("ล้มเหลว", errorMsg, "error")
         }
       })
-
-      socketClient.on('update scene complete', (check) => {
-        
-        setModelUrl(undefined)
-        setSceneURL(undefined)
-        setOnLoader(false)
-
-        if(!check) {
-          const errorMsg = "การอัพเดตไฟล์ฉากล้มเหลว"
-          pushNotification("ล้มเหลว", errorMsg, "error")
-        }
-      })
     }
   }, [socketClient])
 
