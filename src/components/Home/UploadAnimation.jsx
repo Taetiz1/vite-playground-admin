@@ -53,15 +53,9 @@ const UploadAnimation = () => {
 
   useEffect(() => {
     if(socketClient) {
-      socketClient.on('upload animation complete', (check) => {
-        
+      socketClient.on('upload animation complete', () => {
         setModelFile(undefined)
         setOnLoader(false)
-
-        if(!check) {
-          const errorMsg = "การอัพโหลดไฟล์ฉากล้มเหลว"
-          pushNotification("ล้มเหลว", errorMsg, "error")
-        }
       })
     }
   }, [socketClient])
@@ -69,7 +63,11 @@ const UploadAnimation = () => {
   function onUpload() {
     if(action !== ""){
       if(modelFile) {
-        socketClient.emit("upload animation", ({file: modelFile, filename: modelFile.name, action: action}))
+        socketClient.emit("upload animation", ({
+          file: modelFile, 
+          filename: modelFile.name, 
+          action: action
+        }))
         setOnLoader(true)
       }
     } else {

@@ -16,10 +16,9 @@ const Room = () => {
   } = useSocketClient();
   
   const colliders = SceneSelected.colliders
-  console.log(`https://www.googleapis.com/drive/v3/files/${SceneSelected.url}?alt=media&key=${downloadKey}`)
 
   const { scene } = useGLTF(`https://www.googleapis.com/drive/v3/files/${SceneSelected.url}?alt=media&key=${downloadKey}`)
-  console.log(scene)
+  
   const modelRef = useRef();
   const controlsRef = useRef();
   let cameraTarget = new Vector3()
@@ -37,10 +36,6 @@ const Room = () => {
     cameraTarget.z = model.position.z;
     if(controlsRef.current){ controlsRef.current.target = cameraTarget; }
   }, [])
-
-  // useEffect(() => {
-  //   console.log(JSON.stringify(colliders.cuboid))
-  // }, [colliders])
 
   useFrame(() => {
     scene.scale.set(

@@ -41,15 +41,16 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
         if(window.confirm("คุณต้องการที่จะลบ Scene ใช่หรือไม่?")) {
             const sceneDel = scene
             
-            socketClient.emit("delete scene", ({sceneID: sceneDel[sceneIndex].id, sceneURL: sceneDel[sceneIndex].url}))
+            socketClient.emit("delete scene", ({
+                sceneID: sceneDel[sceneIndex].id, 
+                sceneURL: sceneDel[sceneIndex].url
+            }))
             setOnLoader(true)
 
             if(sceneDel.length > 2) {
                 sceneDel.splice(sceneIndex, 1);
                 onSaveAll()
-                
                 SetSceneIndex(1)
-
             } else {
                 const errorMsg = "Scene ต้องมีอย่างน้อย 1 ฉาก"
                 pushNotification("ล้มเหลว", errorMsg, "error")

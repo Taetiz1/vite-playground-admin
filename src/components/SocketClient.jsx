@@ -32,7 +32,6 @@ export const SocketclientProvider = ({children}) => {
           setSocketClient(io.connect(Web_URL))
           setAdminCheck(true)
         }
-    
     }, [connectServer])
     
     useEffect(() => {

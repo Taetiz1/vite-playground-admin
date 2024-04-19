@@ -87,7 +87,6 @@ const Stats = () => {
             socketClient.on("get start point", (rooms) => {
 
                 SetRoomsForEdit(rooms)
-                console.log(rooms)
                 setEditStartPoint(true)
             })
         }

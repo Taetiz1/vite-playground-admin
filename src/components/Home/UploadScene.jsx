@@ -76,16 +76,10 @@ const UploadScene = () => {
 
   useEffect(() => {
     if(socketClient) {
-      socketClient.on('upload scene complete', (check) => {
-        
+      socketClient.on('upload scene complete', () => {
         setModelUrl(undefined)
         setSceneURL(undefined)
         setOnLoader(false)
-
-        if(!check) {
-          const errorMsg = "การอัพโหลดไฟล์ฉากล้มเหลว"
-          pushNotification("ล้มเหลว", errorMsg, "error")
-        }
       })
     }
   }, [socketClient])
@@ -93,7 +87,11 @@ const UploadScene = () => {
   function onUpload() {
     if(sceneName !== ""){
       if(modelFile) {
-        socketClient.emit("upload scene", ({file: modelFile, filename: modelFile.name, sceneName: sceneName}))
+        socketClient.emit("upload scene", ({
+            file: modelFile, 
+            filename: modelFile.name, 
+            sceneName: sceneName
+          }))
         setOnLoader(true)
       }
     } else {
@@ -105,13 +103,11 @@ const UploadScene = () => {
   function onUpdate() {
     if(sceneURL) {
       if(modelFile) {
-        socketClient.emit("update scene", (
-          {
+        socketClient.emit("update scene", ({
             file: modelFile, 
             filename: modelFile.name,
             sceneURL: sceneURL
-          }
-        ))
+          }))
         setOnLoader(true)
       }
     } else {
