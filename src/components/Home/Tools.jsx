@@ -1,5 +1,5 @@
 import { Text, Container, SimpleGrid } from "@mantine/core"
-import { IconUser, IconDoorEnter, Icon3dCubeSphere, IconPointer } from "@tabler/icons-react"
+import { IconUser, IconDoorEnter, Icon3dCubeSphere, IconPointer, IconInfoCircle } from "@tabler/icons-react"
 import { useSocketClient } from "../SocketClient"
 
 const Tools = ({setOnSaved}) => {
@@ -95,6 +95,27 @@ const Tools = ({setOnSaved}) => {
         }
     }
 
+    function addInformation() {
+        if(Object.keys(SceneSelected).length > 0) {
+            const scene = SceneSelected
+            const information = {
+                pos: [
+                    0,
+                    0,
+                    0
+                ],
+                image: [],
+                header: "",
+                content: ""
+            }
+            scene.information.push(information)
+            setSceneSelected(scene)
+            setOnSaved(false)
+            setIndexItem(scene.information.length - 1)
+            setInputPage("information")
+        }
+    }
+
     return(
         <SimpleGrid
             cols={2}
@@ -106,7 +127,7 @@ const Tools = ({setOnSaved}) => {
                 bg="yellow" 
                 style={{
                     padding: "10px", 
-                    margin: "10px 0px 10px 0px",
+                    margin: "10px 0px 5px 0px",
                     userSelect: "none"
                 }}
                 onDoubleClick={addSpawn}
@@ -120,7 +141,7 @@ const Tools = ({setOnSaved}) => {
                 bg="yellow" 
                 style={{
                     padding: "10px", 
-                    margin: "10px 0px 10px 0px",
+                    margin: "10px 0px 5px 0px",
                     userSelect: "none"
                 }}
                 onDoubleClick={addEntrance}
@@ -134,7 +155,7 @@ const Tools = ({setOnSaved}) => {
                 bg="yellow" 
                 style={{
                     padding: "10px", 
-                    margin: "0px 0px 10px 0px",
+                    margin: "0px 0px 5px 0px",
                     userSelect: "none"
                 }}
                 onDoubleClick={addCuboid}
@@ -148,7 +169,7 @@ const Tools = ({setOnSaved}) => {
                 bg="yellow" 
                 style={{
                     padding: "10px", 
-                    margin: "0px 0px 10px 0px",
+                    margin: "0px 0px 5px 0px",
                     userSelect: "none"
                 }}
                 onDoubleClick={addInteractive}
@@ -156,6 +177,20 @@ const Tools = ({setOnSaved}) => {
                 <IconPointer size={50}/>
                 <Text>
                     Interactive
+                </Text>
+            </Container>
+            <Container 
+                bg="yellow" 
+                style={{
+                    padding: "10px", 
+                    margin: "0px 0px 5px 0px",
+                    userSelect: "none"
+                }}
+                onDoubleClick={addInformation}
+            >
+                <IconInfoCircle size={50}/>
+                <Text>
+                    Information
                 </Text>
             </Container>
         </SimpleGrid>

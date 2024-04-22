@@ -52,6 +52,13 @@ const Header = () => {
                                 Admin
                             </Text>
                         </UnstyledButton>
+
+                        <UnstyledButton onClick={() => {setSite("Question")}}>
+                            <Text>
+                                Question
+                            </Text>
+                        </UnstyledButton>
+                        
                         <HoverCard 
                             shadow="md"
                             withinPortal
@@ -69,6 +76,7 @@ const Header = () => {
                                     <IconChevronDown size={20} />
                                 </Center>
                             </HoverCard.Target>
+
                             <HoverCard.Dropdown>
                                 <SimpleGrid cols={1} spacing="xs" verticalSpacing="xs">
                                     <UnstyledButton onClick={() => {setSite("Upload Scene")}}> 
@@ -77,8 +85,12 @@ const Header = () => {
                                     <UnstyledButton onClick={() => {setSite("Upload Animation")}}> 
                                         Upload Animation
                                     </UnstyledButton>
+                                    <UnstyledButton onClick={() => {setSite("Upload Image")}}> 
+                                        Upload Image
+                                    </UnstyledButton>
                                 </SimpleGrid>
                             </HoverCard.Dropdown>
+                            
                         </HoverCard>
                     </Group>
                     <Group>
@@ -91,7 +103,6 @@ const Header = () => {
                     </Group>
                 </Group>
             </MantineHeader>
-
         </Box>
     )
 }

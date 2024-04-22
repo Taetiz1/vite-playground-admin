@@ -26,6 +26,9 @@ export const SocketclientProvider = ({children}) => {
     const [sceneIndex, SetSceneIndex] = useState()
     const [downloadKey, setDownloadKey] = useState("")
     const [avatarAnimation, setAvatarAnimation] = useState([])
+    const [images, setImages] = useState([])
+    const [questions, setQuestions] = useState([])
+    const [LeaderBoard, setLeaderBoard] = useState([])
 
     useEffect(() => {
         if(connectServer) { 
@@ -49,6 +52,9 @@ export const SocketclientProvider = ({children}) => {
             else if(site === "Scene") {
                 socketClient.emit("get scene")
             }
+            else if(site === "Question") {
+                socketClient.emit("get question")
+            }
         }
     }, [socketClient, site])
 
@@ -59,11 +65,12 @@ export const SocketclientProvider = ({children}) => {
     useEffect(() => {
         if(socketClient) {
             
-            socketClient.on("get stats", ({stats, startPoint, downloadKey, animations}) => {
+            socketClient.on("get stats", ({stats, startPoint, downloadKey, animations, images}) => {
                 setState(stats)
                 setStartPoint(startPoint)
                 setDownloadKey(downloadKey)
                 setAvatarAnimation(animations)
+                setImages(images)
             })
 
             socketClient.on("get admin", (admin) => {
@@ -97,6 +104,19 @@ export const SocketclientProvider = ({children}) => {
                   const errorMsg = "ลบฉากล้มเหลว"
                   pushNotification("ล้มเหลว", errorMsg, "error")
                 }
+            })
+
+            socketClient.on('add image', (images) => {
+                setImages(images)
+            })
+
+            socketClient.on('add animation', (animation) => {
+                setAvatarAnimation(animation)
+            })
+
+            socketClient.on('get question', (questionGame) => {
+                setQuestions(questionGame.questions)
+                setLeaderBoard(questionGame.leaderBoard)
             })
         }
     }, [socketClient])
@@ -160,7 +180,13 @@ export const SocketclientProvider = ({children}) => {
                 setStartPoint,
                 downloadKey,
                 avatarAnimation,
-                setAvatarAnimation
+                setAvatarAnimation,
+                images,
+                setImages,
+                questions, 
+                setQuestions,
+                LeaderBoard,
+                setLeaderBoard
             }}
         >
             {children}

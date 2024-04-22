@@ -1,4 +1,4 @@
-import { createStyles, Text, Table, Flex, ScrollArea, Button, Box, SimpleGrid, TextInput, Group, Container } from "@mantine/core"
+import { createStyles, Text, Table, Flex, ScrollArea, Button, Box, SimpleGrid, TextInput, Group } from "@mantine/core"
 import { useSocketClient } from "../SocketClient";
 import { IconEdit, IconX } from "@tabler/icons-react";
 import { useState } from "react";

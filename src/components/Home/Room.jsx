@@ -8,6 +8,7 @@ import Collider_Cuboid from './Collider_Cuboid';
 import { useRef, useEffect } from "react";
 import { Vector3 } from 'three';
 import InteractiveBT from './InteractiveBT';
+import InformationBT from './InformationBT';
 
 const Room = () => {
   const { 
@@ -75,6 +76,10 @@ const Room = () => {
 
       {SceneSelected.interactive.length > 0 && SceneSelected.interactive.map((bt, index) => (
         <InteractiveBT key={index} index={index} />
+      ))}
+
+      {SceneSelected.information.length > 0 && SceneSelected.information.map((info, index) => (
+        <InformationBT key={index} index={index} />
       ))}
       
       <OrbitControls 

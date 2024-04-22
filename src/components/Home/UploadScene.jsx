@@ -215,7 +215,7 @@ const UploadScene = () => {
               }}
             >
               <option disabled selected value></option>
-              {scene.length > 0 && scene.slice(1).map((scene, index) => (
+              {scene.length > 0 && scene.map((scene, index) => (
                 <option key={index} value={scene.url}>{scene.id}. {scene.name} </option>
               ))}
             </select>

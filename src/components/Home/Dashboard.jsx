@@ -3,8 +3,10 @@ import Stats from "./Stats"
 import Admin from "./Admin"
 import Scene from "./Scene"
 import User from "./User"
+import Question from "./Question"
 import UploadScene from "./UploadScene"
 import UploadAnimation from "./UploadAnimation"
+import UploadImage from "./UploadImage"
 import { useSocketClient } from "../SocketClient"
 
 const Dashboard = () => {
@@ -37,6 +39,12 @@ const Dashboard = () => {
           <Admin />
         </Container>
       )
+    case "Question": 
+      return(
+        <Container size="lg">
+          <Question />
+        </Container>
+      )
     case "Upload Scene": 
       return(
         <Container size="lg">
@@ -47,6 +55,12 @@ const Dashboard = () => {
       return(
         <Container size="lg">
           <UploadAnimation />
+        </Container>
+      )
+    case "Upload Image": 
+      return(
+        <Container size="lg">
+          <UploadImage />
         </Container>
       )
   }

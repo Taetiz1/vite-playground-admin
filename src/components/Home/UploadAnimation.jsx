@@ -28,7 +28,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const UploadAnimation = () => {
-  const { classes, theme } = useStyles();
+  const { classes } = useStyles();
   const [modelFile, setModelFile] = useState()
   const [action, setAction] = useState("")
   const [animation, setAnimation] = useState()
@@ -55,7 +55,8 @@ const UploadAnimation = () => {
     if(socketClient) {
       socketClient.on('upload animation complete', () => {
         setModelFile(undefined)
-        setOnLoader(false)
+        setOnLoader(false) 
+        setAction("")
       })
     }
   }, [socketClient])
@@ -200,7 +201,6 @@ const UploadAnimation = () => {
             Add
           </Button>
         </Flex>
-      
       </SimpleGrid>
     </Container>
   </>)

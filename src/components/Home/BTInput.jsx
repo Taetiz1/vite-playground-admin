@@ -91,8 +91,8 @@ const BTInput = ({indexItem, setOnSaved}) => {
                         }}
                     >
                         <option disabled selected value></option>
-                        {scene.length > 0 && scene.slice(1).map((scene, index) => (
-                            <option key={index} value={index+1}>{scene.id}. {scene.name} </option>
+                        {scene.length > 0 && scene.map((scene, index) => (
+                            <option key={index} value={index}>{scene.id}. {scene.name} </option>
                         ))}
                     </select>
                 </SimpleGrid>

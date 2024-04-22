@@ -1,4 +1,4 @@
-import { createStyles, Text, Flex, Box, Grid, SimpleGrid, Button, ScrollArea } from "@mantine/core"
+import { createStyles, Text, Flex, Box, Grid, SimpleGrid, Button, ScrollArea, Modal, useMantineTheme } from "@mantine/core"
 import { useSocketClient } from "../SocketClient";
 import { Canvas } from "@react-three/fiber";
 import { Line, Text as DreiText } from "@react-three/drei";
@@ -11,6 +11,8 @@ import SpawnInput from "./SpawnInput";
 import Tools from "./Tools";
 import Collider_Cuboid_Input from "./Collider_Cuboid_Input";
 import InteractiveInput from "./InteractiveInput";
+import InformationInput from "./InformationInput";
+import InformationContent from "./InformationContent";
 
 const useStyles = createStyles((theme) => ({
   title: {
@@ -34,19 +36,23 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const Scene = () => {
-  const { classes, theme } = useStyles();
+  const { classes } = useStyles();
   const {
     scene,
     SceneSelected,
+    setSceneSelected,
     indexItem,
     InputPage, 
     setInputPage,
     socketClient,
     sceneIndex,
-    SetSceneIndex
+    SetSceneIndex,
+    images
   } = useSocketClient();
   
   const [onSaved, setOnSaved] = useState(false)
+  const [onEditContent, setOnEditContent] = useState(false)
+  const theme = useMantineTheme();
 
   function onSave() {
     if(sceneIndex) {
@@ -168,7 +174,7 @@ const Scene = () => {
               </Text>
 
               <select 
-                defaultValue={sceneIndex}
+                defaultValue={sceneIndex ? sceneIndex : null}
                 onChange={(e) => {
                   setInputPage("main")
                   SetSceneIndex(e.target.value)
@@ -176,8 +182,8 @@ const Scene = () => {
                 }}
               >
                 <option disabled selected value></option>
-                {scene.length > 0 && scene.slice(1).map((scene, index) => (
-                  <option key={index} value={index+1}>{scene.id}. {scene.name} </option>
+                {scene.length > 0 && scene.map((scene, index) => (
+                  <option key={index} value={index}>{scene.id}. {scene.name} </option>
                 ))}
               </select>
               </Flex>
@@ -217,11 +223,27 @@ const Scene = () => {
               {InputPage === "spawn" && <SpawnInput key={indexItem} indexItem={indexItem} setOnSaved={setOnSaved} />}
               {InputPage === "cube" && <Collider_Cuboid_Input key={indexItem} indexItem={indexItem} setOnSaved={setOnSaved} />}
               {InputPage === "interactive" && <InteractiveInput key={indexItem} indexItem={indexItem} setOnSaved={setOnSaved} />}
+              {InputPage === "information" && <InformationInput key={indexItem} indexItem={indexItem} setOnSaved={setOnSaved} setOnEditContent={setOnEditContent} />}
             </ScrollArea>
           </Box>
         </Grid.Col>}
+        
+        <Modal
+          size="100%" 
+          opened={onEditContent} 
+          onClose={() => {setOnEditContent(false)}} 
+          style={{
+            zIndex: '2'
+          }} 
+          overlayProps={{
+            color: theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2],
+            opacity: 0.55,
+            blur: 3,
+          }}
+        >
+          <InformationContent key={indexItem} SceneSelected={SceneSelected} indexItem={indexItem} setOnSaved={setOnSaved} setSceneSelected={setSceneSelected} images={images} />
+        </Modal>
       </Grid>  
-
     </>
   )
 }

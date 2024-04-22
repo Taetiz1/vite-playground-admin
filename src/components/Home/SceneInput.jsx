@@ -11,7 +11,9 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
         sceneIndex, 
         SetSceneIndex,
         socketClient,
-        setOnLoader
+        setOnLoader,
+        setSceneBackUp,
+        SceneBackUp
     } = useSocketClient();
 
     const [scaleX, setScaleX] = useState(SceneSelected.scale[0])
@@ -28,6 +30,7 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
 
     function updateSettings() {
         const settings = SceneSelected
+        setSceneBackUp(settings)
 
         settings.scale = [scaleX, scaleY, scaleZ]
         settings.pos = [posX, posY, posZ]
