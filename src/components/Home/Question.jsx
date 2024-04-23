@@ -29,7 +29,6 @@ const Question = () => {
     const {
         questions, 
         setQuestions,
-        LeaderBoard,
         socketClient
     } = useSocketClient();
 

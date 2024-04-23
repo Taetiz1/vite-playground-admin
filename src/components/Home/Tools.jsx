@@ -28,7 +28,7 @@ const Tools = ({setOnSaved}) => {
         if(Object.keys(SceneSelected).length > 0) {
             const scene = SceneSelected
             const bt = {
-                roomID: "1",
+                roomID: "0",
                 pos: [0, 0, 0],
                 atPos: 0
             }

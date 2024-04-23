@@ -164,7 +164,7 @@ const UploadImage = () => {
                                 <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Emote</th>
+                                    <th>Image</th>
                                 </tr>
                                 </thead>
                                 <tbody>

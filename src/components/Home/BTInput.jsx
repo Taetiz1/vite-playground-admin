@@ -131,7 +131,16 @@ const BTInput = ({indexItem, setOnSaved}) => {
                     >
                         <option disabled selected value></option>
                         {scene[roomIndex] && scene[roomIndex].spawnPos.map((bt, index) => (
-                            <option key={index} value={index} style={{textAlign: "center", justifyContent: "center"}}>({index}) [ {bt[0]}, {bt[1]}, {bt[2]} ] </option>
+                            <option 
+                                key={index} 
+                                value={index} 
+                                style={{
+                                    textAlign: "center", 
+                                    justifyContent: "center"}
+                                }
+                            >
+                                ({index}) [ {bt[0]}, {bt[1]}, {bt[2]} ] 
+                            </option>
                         ))}
                     </select>
                 </SimpleGrid>

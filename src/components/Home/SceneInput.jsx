@@ -50,7 +50,7 @@ const SceneInput = ({setOnSaved, onSaveAll}) => {
             }))
             setOnLoader(true)
 
-            if(sceneDel.length > 2) {
+            if(sceneDel.length > 1) {
                 sceneDel.splice(sceneIndex, 1);
                 onSaveAll()
                 SetSceneIndex(1)
