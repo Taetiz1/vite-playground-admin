@@ -15,7 +15,7 @@ const BTInput = ({indexItem, setOnSaved}) => {
 
     const EnterBT = SceneSelected.enterBT[indexItem]
     const sceneIndex = scene.findIndex(item => item.id === EnterBT.roomID);
-    const [roomID, SetRoomID] = useState(sceneIndex === -1 ? null : scene[sceneIndex].id)
+    const [roomIndex, SetRoomID] = useState(sceneIndex === -1 ? null : sceneIndex)
 
     const [posX, setPosX] = useState(EnterBT.pos[0])
     const [posY, setPosY] = useState(EnterBT.pos[1])
@@ -24,10 +24,10 @@ const BTInput = ({indexItem, setOnSaved}) => {
     const [Atpos, setAtPos] = useState(EnterBT.atPos)
     
     function updateSettings() {
-        if(scene[roomID]) {
+        if(scene[roomIndex]) {
             const settings = SceneSelected
 
-            settings.enterBT[indexItem].roomID = `${scene[roomID].id}`;
+            settings.enterBT[indexItem].roomID = `${scene[roomIndex].id}`;
             settings.enterBT[indexItem].pos = [posX, posY, posZ];
             settings.enterBT[indexItem].atPos = parseFloat(Atpos);
 
@@ -80,7 +80,7 @@ const BTInput = ({indexItem, setOnSaved}) => {
                     </Text>
 
                     <select 
-                        defaultValue={roomID}
+                        defaultValue={roomIndex}
                         onChange={(e) => {
                             SetRoomID(e.target.value)
                             setAtPos(0)
@@ -92,7 +92,7 @@ const BTInput = ({indexItem, setOnSaved}) => {
                     >
                         <option disabled selected value></option>
                         {scene.length > 0 && scene.map((scene, index) => (
-                            <option key={index} value={scene.id}>{scene.id}. {scene.name} </option>
+                            <option key={index} value={index}>{scene.id}. {scene.name} </option>
                         ))}
                     </select>
                 </SimpleGrid>
@@ -117,7 +117,7 @@ const BTInput = ({indexItem, setOnSaved}) => {
                     </Text>
 
                     <select 
-                        key={roomID}
+                        key={roomIndex}
                         defaultValue={Atpos}
                         onChange={(e) => {
                             setAtPos(e.target.value)
@@ -130,7 +130,7 @@ const BTInput = ({indexItem, setOnSaved}) => {
                         }}
                     >
                         <option disabled selected value></option>
-                        {scene[roomID] && scene[roomID].spawnPos.map((bt, index) => (
+                        {scene[roomIndex] && scene[roomIndex].spawnPos.map((bt, index) => (
                             <option 
                                 key={index} 
                                 value={index} 
